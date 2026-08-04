@@ -98,7 +98,6 @@ def semantic_search(query: str, top_k: int = 3) -> list[dict]:
 
     output = []
     for doc, meta, dist in zip(documents, metadatas, distances):
-<<<<<<< HEAD
         dist = float(dist)
         if space == "ip":
             raw_score = 1.0 - dist
@@ -106,10 +105,6 @@ def semantic_search(query: str, top_k: int = 3) -> list[dict]:
             raw_score = 1.0 - dist
         else:  # "l2" — squared euclidean trên vector đã chuẩn hoá
             raw_score = 1.0 - dist / 2.0
-=======
-        # Convert Cosine distance (1 - similarity) to Cosine similarity score ∈ [0.0, 1.0]
-        raw_score = 1.0 - float(dist)
->>>>>>> 772cd27 (feat(role2): add teacher data support, optimize CPU indexing, and add operation guide)
         score = max(0.0, min(1.0, raw_score))
 
         # Ensure metadata is dict and uses 'type' instead of 'doc_type'
