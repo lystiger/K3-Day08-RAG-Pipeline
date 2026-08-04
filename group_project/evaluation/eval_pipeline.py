@@ -37,15 +37,25 @@ except Exception as e:
 import os
 
 import json
+from pathlib import Path
+
 import pandas as pd
+from dotenv import load_dotenv
+
 # Load env variables từ đúng thư mục dự án và ghi đè thủ công để tránh bị đè bởi biến môi trường hệ thống
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=True)
 
-# Đảm bảo các biến môi trường hệ thống được cấu hình đúng từ file .env
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
-os.environ["OPENAI_BASE_URL"] = os.getenv("OPENAI_BASE_URL", "")
-os.environ["LLM_MODEL"] = os.getenv("LLM_MODEL", "deepseek-v4-flash")
+# Đảm bảo các biến môi trường hệ thống được cấu hình đúng từ file .env.
+# Nếu nhóm chỉ có OPENROUTER_API_KEY thì dùng luôn key đó (OpenRouter dùng chung
+# interface OpenAI), khỏi phải khai báo trùng key ở 2 biến khác nhau.
+_api_key = os.getenv("OPENAI_API_KEY") or os.getenv("OPENROUTER_API_KEY", "")
+_base_url = os.getenv("OPENAI_BASE_URL") or (
+    "https://openrouter.ai/api/v1" if _api_key.startswith("sk-or-") else "https://api.openai.com/v1"
+)
+os.environ["OPENAI_API_KEY"] = _api_key
+os.environ["OPENAI_BASE_URL"] = _base_url
+os.environ["LLM_MODEL"] = os.getenv("LLM_MODEL", "openai/gpt-4o-mini")
 
 GOLDEN_DATASET_PATH = Path(__file__).parent / "golden_dataset.json"
 RESULTS_PATH = Path(__file__).parent / "results.md"
@@ -92,7 +102,7 @@ def evaluate_with_ragas(rag_pipeline, golden_dataset: list[dict], use_reranking:
     
     # Cấu hình Custom LLM và Local Embeddings cho Ragas
     llm = ChatOpenAI(
-        model=os.getenv("LLM_MODEL", "deepseek-v4-flash"),
+        model=os.getenv("LLM_MODEL", "openai/gpt-4o-mini"),
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
         openai_api_base=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
     )
@@ -207,8 +217,6 @@ if __name__ == "__main__":
     sys.path.append(str(Path(__file__).parent.parent.parent))
     
     # Import RAG generation module
-    import src.task10_generation
-    print(f"\nDEBUG IMPORT PATH: {src.task10_generation.__file__}\n")
     from src.task10_generation import generate_with_citation
     
     # Giả lập pipeline object
@@ -220,8 +228,14 @@ if __name__ == "__main__":
     
     dataset = load_golden_dataset()
     print(f"Loaded {len(dataset)} test cases from golden_dataset.json")
-    eval_subset = dataset[:1]
-    print(f"Selected {len(eval_subset)} subset cases for evaluation run...")
+
+    # Mặc định chạy TOÀN BỘ golden dataset — tiêu chí chấm yêu cầu eval trên cả bộ
+    # và phân tích bottom 3 worst performers (không đủ 3 câu thì bảng đó vô nghĩa).
+    # Khi bị 429 quá nặng, hạ tạm bằng biến môi trường thay vì sửa code:
+    #   EVAL_LIMIT=5 python -m group_project.evaluation.eval_pipeline
+    limit = int(os.getenv("EVAL_LIMIT", "0") or 0)
+    eval_subset = dataset[:limit] if limit > 0 else dataset
+    print(f"Selected {len(eval_subset)}/{len(dataset)} cases for evaluation run...")
     
     comparison = compare_configs(pipeline, eval_subset)
     export_results(comparison)

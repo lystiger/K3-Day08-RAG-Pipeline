@@ -549,9 +549,43 @@ run_dashboard()
 
 ### Kiến Trúc Hệ Thống
 
+```mermaid
+flowchart LR
+    subgraph ING["Ingestion — offline"]
+        T1["Task 1<br/>PDF chính sách HUST"] --> LZ[("data/landing/")]
+        T2["Task 2<br/>Crawl tin tức HUST"] --> LZ
+        LZ --> T3["Task 3<br/>MarkItDown → .md<br/>+ YAML front matter"]
+        T3 --> SZ[("data/standardized/")]
+        SZ --> T4["Task 4<br/>Chunk 800/100<br/>Embed bge-m3 (1024d)"]
+        T4 --> CDB[("chroma_db/<br/>university_services_docs<br/>928 chunks")]
+    end
+
+    subgraph RET["Retrieval — mỗi câu hỏi"]
+        Q(["Câu hỏi người dùng"]) --> T5["Task 5<br/>Semantic search<br/>cosine [0,1]"]
+        Q --> T6["Task 6<br/>BM25 lexical"]
+        CDB --> T5
+        SZ --> T6
+        T5 --> T9{"Task 9 — retrieve()"}
+        T6 --> T9
+        T9 -->|gộp thứ hạng| T7["Task 7<br/>RRF k=60<br/>+ Cross-Encoder"]
+        T9 -->|cosine gốc &lt; ngưỡng| T8["Task 8<br/>PageIndex<br/>vectorless fallback"]
+    end
+
+    subgraph GEN["Generation & UI"]
+        T7 --> T10["Task 10<br/>Reorder chống lost-in-the-middle<br/>+ ép citation"]
+        T8 --> T10
+        T10 --> UI["app.py — Streamlit<br/>api.py + web/ — FastAPI SSE"]
+    end
+
+    subgraph EVAL["Evaluation"]
+        GD["golden_dataset.json<br/>16 cặp Q&A"] --> EV["eval_pipeline.py<br/>RAGAS 4 metrics<br/>A/B: Hybrid+Rerank vs Dense-only"]
+        T10 --> EV
+        EV --> RES["results.md"]
+    end
 ```
-[Vẽ diagram kiến trúc ở đây]
-```
+
+> Chi tiết hợp đồng dữ liệu giữa các Task (schema `{content, metadata, score}`) và 3 cái bẫy
+> tích hợp trong starter code: xem [`TEAM_ARCHITECTURE.md`](TEAM_ARCHITECTURE.md).
 
 ---
 

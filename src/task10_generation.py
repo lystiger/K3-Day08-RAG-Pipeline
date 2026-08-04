@@ -15,16 +15,25 @@ Base URL: "https://openrouter.ai/api/v1", dùng chung interface với OpenAI SDK
 
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # Load env variables từ đúng thư mục dự án và ghi đè thủ công để tránh bị đè bởi biến môi trường hệ thống
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=True)
 
-# Đảm bảo các biến môi trường hệ thống được cấu hình đúng từ file .env
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
-os.environ["OPENAI_BASE_URL"] = os.getenv("OPENAI_BASE_URL", "")
-os.environ["LLM_MODEL"] = os.getenv("LLM_MODEL", "deepseek-v4-flash")
+# Đảm bảo các biến môi trường hệ thống được cấu hình đúng từ file .env.
+# Nhóm nào chỉ khai OPENROUTER_API_KEY thì dùng luôn key đó — OpenRouter dùng chung
+# interface với OpenAI SDK, chỉ khác base_url. Không đặt base_url rỗng vì client
+# OpenAI sẽ nhận chuỗi "" làm URL thật và request hỏng ngay.
+_api_key = os.getenv("OPENAI_API_KEY") or os.getenv("OPENROUTER_API_KEY", "")
+_base_url = os.getenv("OPENAI_BASE_URL") or (
+    "https://openrouter.ai/api/v1" if _api_key.startswith("sk-or-") else "https://api.openai.com/v1"
+)
+os.environ["OPENAI_API_KEY"] = _api_key
+os.environ["OPENAI_BASE_URL"] = _base_url
+os.environ["LLM_MODEL"] = os.getenv("LLM_MODEL", "openai/gpt-4o-mini")
 
 from .task9_retrieval_pipeline import retrieve
 
@@ -162,9 +171,8 @@ def generate_with_citation(query: str, top_k: int = TOP_K, use_reranking: bool =
     # Lấy thông tin từ các biến môi trường đã được nạp an toàn
     api_key = os.getenv("OPENAI_API_KEY", "")
     base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
-    model_name = os.getenv("LLM_MODEL", "deepseek-v4-flash")
+    model_name = os.getenv("LLM_MODEL", "openai/gpt-4o-mini")
 
-    print(f"\nDEBUG GENERATION: api_key={api_key[:15]}... base_url={base_url} model={model_name}\n")
     client = OpenAI(api_key=api_key, base_url=base_url)
 
     response = client.chat.completions.create(
