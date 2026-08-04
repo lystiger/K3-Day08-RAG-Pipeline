@@ -26,6 +26,14 @@ HUST_PDF_URLS = [
     {
         "url": "https://hust.edu.vn/uploads/sys/news/2026_07/th_ng_b_o_v__ng__ng_ng_nh_vi_m_ch_b_n_d_n_n_m_2026_14.07.2026_final.pdf",
         "filename": "hust_thong_bao_vi_mach_ban_dan_2026.pdf"
+    },
+    {
+        "url": "https://hust.edu.vn/uploads/sys/tuyen-sinh/2023_06/6888_qd-dhbk-cap-nhat.pdf",
+        "filename": "teacher_qd_6888_can_bo.pdf"
+    },
+    {
+        "url": "https://hust.edu.vn/uploads/sys/tuyen-sinh/2023_06/thong-tin-tuyen-sinh-dai-hoc-2026f.pdf",
+        "filename": "teacher_dinh_muc_giang_day.pdf"
     }
 ]
 
@@ -50,10 +58,15 @@ def download_legal_docs():
         filename = item["filename"]
         filepath = DATA_DIR / filename
 
+        if filepath.exists() and filepath.stat().st_size > 1024:
+            print(f"✓ File đã tồn tại: {filepath} ({filepath.stat().st_size} bytes)")
+            downloaded_files.append(filepath)
+            continue
+
         print(f"[{i+1}/{len(HUST_PDF_URLS)}] Đang tải {filename} từ {url}...")
         try:
             # R4 compliance: proper User-Agent header, handle SSL verify=False if needed
-            response = requests.get(url, headers=HEADERS, timeout=30, verify=False)
+            response = requests.get(url, headers=HEADERS, timeout=120, verify=False)
             response.raise_for_status()
 
             if len(response.content) <= 1024:

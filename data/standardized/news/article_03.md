@@ -2,9 +2,9 @@
 doc_id: news_03
 title: Hướng dẫn đăng ký xác thực chứng chỉ Ngoại ngữ 2026
 source_url: https://ts.hust.edu.vn/tin-tuc/huong-dan-dang-ky-xac-thuc-chung-chi-ngoai-ngu-2026
-retrieved_at: '2026-08-04T10:19:15.115467'
+retrieved_at: '2026-08-04T11:51:18.736383'
 document_version: '1.0'
-audience: students
+audience: student
 ---
 
 # Hướng dẫn đăng ký xác thực chứng chỉ Ngoại ngữ 2026

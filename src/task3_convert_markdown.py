@@ -22,7 +22,7 @@ def create_front_matter(
     source_url: str,
     retrieved_at: str,
     document_version: str = "1.0",
-    audience: str = "students",
+    audience: str = "student",
 ) -> str:
     """Tạo YAML Front Matter đúng chuẩn quy định."""
     metadata = {
@@ -59,8 +59,14 @@ def convert_legal_docs():
             print(f"  Warning: MarkItDown conversion issue on {filepath.name}: {e}")
             body_content = ""
 
-        # Extract or construct title and fallback text if needed
-        if "6888" in filepath.stem:
+        # Extract or construct title and source URL
+        if "teacher_dinh_muc" in filepath.stem:
+            title = "Quy định Định mức Giảng dạy và Giờ làm việc của Giảng viên ĐHBK Hà Nội"
+            source_url = f"https://hust.edu.vn/legal/{filepath.name}"
+        elif "teacher_qd_6888" in filepath.stem:
+            title = "Quyết định 6888/QĐ-ĐHBK Hướng dẫn thực hiện Công tác Cán bộ và Giảng viên ĐHBK Hà Nội"
+            source_url = f"https://hust.edu.vn/legal/{filepath.name}"
+        elif "6888" in filepath.stem:
             title = "Quyết định 6888/QĐ-ĐHBK Cập nhật Quy định Công tác Học sinh Sinh viên ĐHBK Hà Nội"
             source_url = "https://hust.edu.vn/legal/hust_qd_6888_cap_nhat.pdf"
         elif "vi_mach_ban_dan" in filepath.stem:
@@ -73,15 +79,30 @@ def convert_legal_docs():
             title = filepath.stem.replace("_", " ").title()
             source_url = f"https://hust.edu.vn/legal/{filepath.name}"
 
+        # Resolve audience
+        if "teacher" in filepath.stem.lower() or "can_bo" in filepath.stem.lower() or "giang_vien" in filepath.stem.lower():
+            audience = "teacher"
+        else:
+            audience = "student"
+
         # If converted text is too short (e.g. scanned PDF), ensure rich description body is present
         if len(body_content) < 100:
-            body_content = (
-                f"# {title}\n\n"
-                f"Tài liệu quy định và chính sách chính thức từ Đại học Bách khoa Hà Nội: {title}.\n"
-                f"File gốc: `{filepath.name}`.\n\n"
-                f"Nội dung chi tiết tài liệu quy định về đào tạo, điều kiện trúng tuyển, quy chế học bổng, "
-                f"và các chính sách hỗ trợ người học tại Đại học Bách khoa Hà Nội."
-            )
+            if audience == "teacher":
+                body_content = (
+                    f"# {title}\n\n"
+                    f"Tài liệu quy định và chính sách dành cho cán bộ giảng viên từ Đại học Bách khoa Hà Nội: {title}.\n"
+                    f"File gốc: `{filepath.name}`.\n\n"
+                    f"Nội dung chi tiết tài liệu quy định về định mức giảng dạy, khối lượng công tác, "
+                    f"chế độ làm việc và công tác cán bộ giảng viên tại Đại học Bách khoa Hà Nội."
+                )
+            else:
+                body_content = (
+                    f"# {title}\n\n"
+                    f"Tài liệu quy định và chính sách chính thức từ Đại học Bách khoa Hà Nội: {title}.\n"
+                    f"File gốc: `{filepath.name}`.\n\n"
+                    f"Nội dung chi tiết tài liệu quy định về đào tạo, điều kiện trúng tuyển, quy chế học bổng, "
+                    f"và các chính sách hỗ trợ người học tại Đại học Bách khoa Hà Nội."
+                )
 
         retrieved_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         front_matter = create_front_matter(
@@ -90,7 +111,7 @@ def convert_legal_docs():
             source_url=source_url,
             retrieved_at=retrieved_at,
             document_version="1.0",
-            audience="students",
+            audience=audience,
         )
 
         full_content = front_matter + body_content
@@ -121,6 +142,13 @@ def convert_news_articles():
         else:
             retrieved_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+        # Resolve audience
+        raw_audience = data.get("audience", "")
+        if "teacher" in str(raw_audience).lower() or "teacher" in filepath.stem.lower():
+            audience = "teacher"
+        else:
+            audience = "student"
+
         body_content = data.get("content_markdown", "").strip()
         if not body_content:
             body_content = f"# {title}\n\nNội dung bài viết từ {source_url}."
@@ -131,7 +159,7 @@ def convert_news_articles():
             source_url=source_url,
             retrieved_at=retrieved_at,
             document_version="1.0",
-            audience="students",
+            audience=audience,
         )
 
         full_content = front_matter + body_content
@@ -161,4 +189,5 @@ def convert_all():
 
 if __name__ == "__main__":
     main()
+
 

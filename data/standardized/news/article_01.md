@@ -3,9 +3,9 @@ doc_id: news_01
 title: Chi tiết 55 Chương trình đào tạo tại Bách khoa Hà Nội nhận Học bổng Chính phủ
   theo Nghị định 179
 source_url: https://ts.hust.edu.vn/tin-tuc/chi-tiet-55-chuong-trinh-dao-tao-tai-bach-khoa-ha-noi-nhan-hoc-bong-chinh-phu-theo-nghi-dinh-179
-retrieved_at: '2026-08-04T10:19:11.506052'
+retrieved_at: '2026-08-04T11:51:10.903747'
 document_version: '1.0'
-audience: students
+audience: student
 ---
 
 # Chi tiết 55 Chương trình đào tạo tại Bách khoa Hà Nội nhận Học bổng Chính phủ theo Nghị định 179

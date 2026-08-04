@@ -2,9 +2,9 @@
 doc_id: news_02
 title: Thông tin tuyển sinh năm 2026
 source_url: https://ts.hust.edu.vn/tin-tuc/thong-tin-tuyen-sinh-nam-2026
-retrieved_at: '2026-08-04T10:19:13.239517'
+retrieved_at: '2026-08-04T11:51:12.892535'
 document_version: '1.0'
-audience: students
+audience: student
 ---
 
 # Thông tin tuyển sinh năm 2026

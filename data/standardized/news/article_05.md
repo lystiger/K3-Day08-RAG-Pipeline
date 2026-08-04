@@ -3,9 +3,9 @@ doc_id: news_05
 title: 'ICCE 2026 tại Nha Trang: Điểm hẹn cho những giải pháp công nghệ phục vụ con
   người'
 source_url: https://hust.edu.vn/vi/news/tin-tuc-su-kien/icce-2026-tai-nha-trang-diem-hen-cho-nhung-giai-phap-cong-nghe-phuc-vu-con-nguoi-656002.html
-retrieved_at: '2026-08-04T10:19:19.614656'
+retrieved_at: '2026-08-04T11:51:24.518629'
 document_version: '1.0'
-audience: students
+audience: student
 ---
 
 # ICCE 2026 tại Nha Trang: Điểm hẹn cho những giải pháp công nghệ phục vụ con người

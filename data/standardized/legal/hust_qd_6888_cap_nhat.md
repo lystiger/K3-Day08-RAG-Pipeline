@@ -3,9 +3,9 @@ doc_id: legal_01
 title: Quyết định 6888/QĐ-ĐHBK Cập nhật Quy định Công tác Học sinh Sinh viên ĐHBK
   Hà Nội
 source_url: https://hust.edu.vn/legal/hust_qd_6888_cap_nhat.pdf
-retrieved_at: '2026-08-04T03:22:35Z'
+retrieved_at: '2026-08-04T04:56:01Z'
 document_version: '1.0'
-audience: students
+audience: student
 ---
 
 # Quyết định 6888/QĐ-ĐHBK Cập nhật Quy định Công tác Học sinh Sinh viên ĐHBK Hà Nội

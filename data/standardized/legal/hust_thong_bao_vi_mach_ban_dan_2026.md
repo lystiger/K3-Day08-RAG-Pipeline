@@ -2,9 +2,9 @@
 doc_id: legal_02
 title: Thông báo Ngưỡng đảm bảo chất lượng đầu vào Lĩnh vực Vi mạch Bán dẫn năm 2026
 source_url: https://ts.hust.edu.vn/legal/hust_thong_bao_vi_mach_ban_dan_2026.pdf
-retrieved_at: '2026-08-04T03:22:35Z'
+retrieved_at: '2026-08-04T04:56:01Z'
 document_version: '1.0'
-audience: students
+audience: student
 ---
 
 ĐẠI HỌC BÁCH KHOA HÀ NỘI

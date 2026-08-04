@@ -1,10 +1,10 @@
 ---
-doc_id: legal_03
-title: Thông tin Tuyển sinh Đại học Bách khoa Hà Nội năm 2026
-source_url: https://ts.hust.edu.vn/legal/hust_thong_tin_tuyen_sinh_2026.pdf
-retrieved_at: '2026-08-04T04:56:15Z'
+doc_id: legal_04
+title: Quy định Định mức Giảng dạy và Giờ làm việc của Giảng viên ĐHBK Hà Nội
+source_url: https://hust.edu.vn/legal/teacher_dinh_muc_giang_day.pdf
+retrieved_at: '2026-08-04T04:56:29Z'
 document_version: '1.0'
-audience: student
+audience: teacher
 ---
 
 BỘ GIÁO DỤC VÀ ĐÀO TẠO CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM

@@ -5,6 +5,16 @@ Module constants and function implementations for chunking standardized
 markdown documents and indexing them into local ChromaDB using BAAI/bge-m3.
 """
 
+import os
+os.environ["OMP_NUM_THREADS"] = "4"
+os.environ["MKL_NUM_THREADS"] = "4"
+os.environ["OPENBLAS_NUM_THREADS"] = "4"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "4"
+os.environ["NUMEXPR_NUM_THREADS"] = "4"
+
+import torch
+torch.set_num_threads(4)
+
 from pathlib import Path
 from typing import List, Dict, Any
 
@@ -43,24 +53,31 @@ def load_documents(data_dir: str | Path = "data/standardized") -> list[dict]:
         data_dir: Path string or Path object to standardized data directory.
 
     Returns:
-        List of dicts with keys 'content' and 'metadata' containing 'source' and 'type'.
+        List of dicts with keys 'content' and 'metadata' containing 'source', 'type', and 'audience'.
         Returns empty list [] if directory is missing or empty.
     """
+    import yaml
+
     path_dir = Path(data_dir)
     if not path_dir.is_absolute():
         path_dir = PROJECT_DIR / path_dir
 
     if not path_dir.exists() or not path_dir.is_dir():
+        print(f"Directory not found: {path_dir}")
         return []
 
     documents = []
     md_files = sorted(list(path_dir.rglob("*.md")))
 
+    print(f"Loaded {len(md_files)} document(s) from '{path_dir}':")
+    for md_file in md_files:
+        print(f"  - {md_file.relative_to(path_dir)}")
+
     for md_file in md_files:
         try:
-            content = md_file.read_text(encoding="utf-8")
+            raw_content = md_file.read_text(encoding="utf-8")
             rel_str = str(md_file.relative_to(path_dir)).lower()
-            
+
             if "legal" in rel_str or "legal" in md_file.parent.name.lower():
                 doc_type = "legal"
             elif "news" in rel_str or "news" in md_file.parent.name.lower():
@@ -68,12 +85,35 @@ def load_documents(data_dir: str | Path = "data/standardized") -> list[dict]:
             else:
                 doc_type = "general"
 
+            # Parse YAML front-matter if present
+            content = raw_content
+            front_meta = {}
+            if raw_content.startswith("---"):
+                parts = raw_content.split("---", 2)
+                if len(parts) >= 3:
+                    try:
+                        parsed_yaml = yaml.safe_load(parts[1])
+                        if isinstance(parsed_yaml, dict):
+                            front_meta = parsed_yaml
+                        content = parts[2].strip()
+                    except Exception:
+                        content = raw_content
+
+            audience = str(front_meta.get("audience", "general"))
+
+            meta = {
+                "source": md_file.name,
+                "type": doc_type,
+                "audience": audience,
+            }
+            if "doc_id" in front_meta:
+                meta["doc_id"] = str(front_meta["doc_id"])
+            if "title" in front_meta:
+                meta["title"] = str(front_meta["title"])
+
             documents.append({
                 "content": content,
-                "metadata": {
-                    "source": md_file.name,
-                    "type": doc_type
-                }
+                "metadata": meta
             })
         except Exception as e:
             print(f"Warning: Failed to load document {md_file}: {e}")
@@ -96,7 +136,7 @@ def chunk_documents(documents: list[dict]) -> list[dict]:
         documents: List of document dicts with 'content' and 'metadata'.
 
     Returns:
-        List of chunk dicts: [{'content': str, 'metadata': {'source': str, 'type': str, 'chunk_index': int}}]
+        List of chunk dicts: [{'content': str, 'metadata': {'source': str, 'type': str, 'audience': str, 'chunk_index': int}}]
     """
     from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -138,9 +178,11 @@ def embed_chunks(chunks: list[dict]) -> list[dict]:
 
     from sentence_transformers import SentenceTransformer
 
-    model = SentenceTransformer(EMBEDDING_MODEL)
+    model = SentenceTransformer(EMBEDDING_MODEL, device="cpu")
+    model.max_seq_length = 256
     texts = [c["content"] for c in chunks]
-    embeddings = model.encode(texts, show_progress_bar=True)
+    # batch_size=16 is much more L3 Cache friendly on CPU
+    embeddings = model.encode(texts, batch_size=16, show_progress_bar=True)
 
     for chunk, emb in zip(chunks, embeddings):
         chunk["embedding"] = emb.tolist() if hasattr(emb, "tolist") else list(emb)
@@ -174,7 +216,14 @@ def index_to_vectorstore(
     path_dir.mkdir(parents=True, exist_ok=True)
     client = chromadb.PersistentClient(path=str(path_dir))
 
-    collection = client.get_or_create_collection(
+    # Reset/delete existing collection to guarantee fresh index without stale documents
+    try:
+        client.delete_collection(collection_name)
+        print(f"Cleared existing ChromaDB collection '{collection_name}'")
+    except Exception:
+        pass
+
+    collection = client.create_collection(
         name=collection_name,
         embedding_function=None,
         metadata={"hnsw:space": "cosine"}
@@ -191,11 +240,19 @@ def index_to_vectorstore(
         doc_type = meta.get("type", "general")
         idx = meta.get("chunk_index", 0)
 
+        # Sanitize metadata primitives for ChromaDB
+        clean_meta = {}
+        for k, v in meta.items():
+            if isinstance(v, (str, int, float, bool)):
+                clean_meta[k] = v
+            elif v is not None:
+                clean_meta[k] = str(v)
+
         chunk_id = f"{doc_type}_{source}_chunk_{idx}"
         ids.append(chunk_id)
         documents.append(c["content"])
         embeddings.append(c["embedding"])
-        metadatas.append(meta)
+        metadatas.append(clean_meta)
 
     collection.upsert(
         ids=ids,

@@ -1,0 +1,99 @@
+---
+doc_id: news_06
+title: Tiến sĩ "kép" ngành Hóa trở thành giảng viên xuất sắc Bách khoa Hà Nội
+source_url: https://hust.edu.vn/vi/news/to-chuc-nhan-su-tuyen-dung/tien-si-kep-nganh-hoa-tro-thanh-giang-vien-xuat-sac-bach-khoa-ha-noi-655814.html
+retrieved_at: '2026-08-04T11:51:29.029452'
+document_version: '1.0'
+audience: teacher
+---
+
+# Tiến sĩ "kép" ngành Hóa trở thành giảng viên xuất sắc Bách khoa Hà Nội
+
+Nguyễn Thu Huệ
+
+2026-05-11T16:17:37+07:00
+2026-05-11T16:17:37+07:00
+https://hust.edu.vn/vi/news/khoa-hoc-cong-nghe-dmst/tien-si-kep-nganh-hoa-tro-thanh-giang-vien-xuat-sac-bach-khoa-ha-noi-655814.html
+https://hust.edu.vn/uploads/sys/news/2026\_03/minhacaen-1.png
+
+Đại học Bách khoa Hà Nội
+
+https://hust.edu.vn/uploads/sys/logo-dhbk-1-02\_130\_191.png
+
+Thứ hai - 09/03/2026 09:00
+
+![TS. Nguyễn Quang Minh - Giảng viên Khoa Kỹ thuật Hóa học, Trường Hóa và Khoa học sự sống, Đại học Bách khoa Hà Nội](/uploads/sys/news/2026_03/minhacaen-1.png)
+
+
+TS. Nguyễn Quang Minh - Giảng viên Khoa Kỹ thuật Hóa học, Trường Hóa và Khoa học sự sống, Đại học Bách khoa Hà Nội
+
+***Sở hữu hai tấm bằng tiến sĩ tại Pháp và Ba Lan, nhiều công bố Q1, bằng sáng chế và là người đồng sáng lập, Giám đốc Công nghệ của một start-up công nghệ plasma tại Anh, TS. Nguyễn Quang Minh đã quyết định gác lại tất cả để trở về Đại học Bách khoa Hà Nội.***  
+  
+Sự đồng hành của TS. Minh theo Đề án thu hút và tuyển dụng giảng viên trẻ tài năng, chuyên gia, nhà khoa học đầu ngành giai đoạn 2025-2030 (HUST-Talent) là minh chứng cho sức hút của một "thanh nam châm" đang thu hút những trí tuệ Việt từ khắp nơi trên thế giới.  
+  
+**Hành trình chinh phục tấm hai tấm bằng tiến sĩ danh giá**  
+  
+TS. Nguyễn Quang Minh sinh năm 1993, là cựu sinh viên ngành Kỹ thuật Hóa học. Sau khi tốt nghiệp, anh tiếp tục học thạc sĩ tại Đại học Bách khoa Hà Nội và bắt đầu nhen nhóm giấc mơ bước ra môi trường học thuật quốc tế.   
+  
+Cuối năm 2019, được sự giới thiệu của PGS. Phạm Thanh Huyền - Giảng viên Trường Hóa và Khoa học sự sống, anh Minh giành học bổng Marie Skłodowska-Curie, đồng thời theo học chương trình song bằng tiến sĩ tại Pháp và Ba Lan.   
+  
+Làm nghiên cứu sinh tại hai trường đại học cách nhau gần 2.000 km buộc anh cứ 6 tháng lại di chuyển giữa hai quốc gia để thực hiện nghiên cứu. “Có lần tôi gần như đứng khóc ở một ga tàu nhỏ tại Pháp.” - Anh Minh hồi nhớ về ngày đầu tiên sang Pháp để bắt đầu chương trình tiến sĩ. Vì rào cản ngôn ngữ, anh lỡ chuyến tàu di chuyển về trường, một mình kéo hành lý chạy qua chạy lại giữa hai sân ga dưới trời mưa tầm tã. Cuối cùng, chính giáo sư hướng dẫn của anh đã lái xe 80km ra bến tàu, không ngần ngại dầm mưa đi tìm học trò. Hình ảnh hai thầy trò ướt sũng trên xe sau khi tìm được nhau hôm ấy đã trở thành động lực để anh mạnh mẽ, cứng cỏi hơn trong những năm học tập và làm việc xa xứ.   
+  
+Giai đoạn làm tiến sĩ giúp anh Minh định hình tư duy nghiên cứu theo chuẩn quốc tế: Xác định khoảng trống nghiên cứu rõ ràng, thiết kế thí nghiệm có đối chứng, kỷ luật trong nghiên cứu… để rồi có những bài báo trên các tạp chí hàng đầu như Applied Catalysis B: Environmental, ACS Catalysis hay Journal of Energy Chemistry.  
+ 
+![](/uploads/sys/news/2026_03/5c7c02db0a33846ddd22.jpg)
+
+
+TS. Nguyễn Quang Minh (hàng đầu, thứ ba từ trái sang) cùng các NCS quốc tế
+
+Năm 2023, anh Nguyễn Quang Minh nhận hai tấm bằng tiến sĩ theo chương trình đồng cấp bằng, được cấp bởi Liên hiệp các Trường Đại học Normandie (Pháp) và Đại học Khoa học và Công nghệ AGH (Ba Lan). Sau đó anh tiếp tục làm nghiên cứu sau tiến sĩ tại Đại học Liverpool (Anh), đồng thời tham gia chương trình thương mại hóa công nghệ ICURe của Innovate UK, đồng sáng lập PlasmaC2M và giữ vị trí Giám đốc Công nghệ.  
+  
+**HUST-Talent: Lời mời gọi "đúng người, đúng thời điểm"**  
+  
+Khi sự nghiệp tại Anh đang ở độ chín, chỉ cần thêm một thời gian ngắn nữa có thể đủ điều kiện được cấp quyền cư trú vô thời hạn tại Anh (ILR), TS. Nguyễn Quang Minh lại quyết định trở về.   
+  
+“Tôi muốn trở về Bách khoa từ trước khi nhận bằng tiến sĩ.” - Anh Minh chia sẻ. Trước khi bắt đầu giai đoạn postdoc, anh đã về thăm thầy, cô và bày tỏ mong muốn công tác lâu dài tại trường.   
+  
+Đến khi hội tụ đủ điều kiện, thông qua sự giới thiệu và hướng dẫn của PGS. Đào Quốc Tùy - Giảng viên Trường Hóa và Khoa học sự sống, TS. Minh ứng tuyển vào Đại học Bách khoa Hà Nội theo Đề án HUST-Talent.   
+  
+Theo TS. Minh, đề án có ý nghĩa chiến lược ở ba điểm: Thu hút nguồn nhân lực trẻ chất lượng cao được đào tạo quốc tế; chuẩn hóa kỳ vọng giảng viên theo hướng gắn đào tạo với nghiên cứu; và xây dựng lực lượng nòng cốt cho mục tiêu phát triển đại học nghiên cứu, tăng năng lực cạnh tranh học thuật và kết nối toàn cầu.  
+  
+Anh Minh bắt đầu chuẩn bị hồ sơ từ 6 tháng trước khi về nước, tham gia hội đồng phỏng vấn, trình bày thử bài giảng và bảo vệ các thành tích nghiên cứu, dự án đã tham gia. Tháng 2/2026, tiến sĩ trẻ Nguyễn Quang Minh chính thức trở thành giảng viên Khoa Kỹ thuật Hóa học, Đại học Bách khoa Hà Nội.  
+
+![](/uploads/sys/news/2026_03/f7d9cfecc0044e5a1715.jpg)
+
+
+TS. Nguyễn Quang Minh (bìa trái hàng ngồi) khai xuân cùng các giảng viên Khoa Kỹ thuật Hóa học, Khoa Hóa học
+
+Tiến sĩ 9x chia sẻ, chính Đề án HUST-Talent đã tạo cho anh sự tự tin khi quay về. Thay vì những lo ngại về thủ tục hành chính, đề án mang đến những hỗ trợ thiết thực: Tạo điều kiện về giờ giảng dạy, cấp kinh phí thực hiện đề tài ban đầu, tạo cơ hội để các giảng viên trẻ như anh xây dựng nhóm nghiên cứu độc lập.   
+  
+TS. Nguyễn Quang Minh bày tỏ: "Nếu HUST-Talent tiếp tục được lan tỏa rộng rãi, tôi tin rằng 10 người thì có 7-8 nhà khoa học trẻ đang ở nước ngoài sẽ chọn trở về. Bởi suy cho cùng, ai cũng muốn được gần gũi gia đình và cống hiến những gì tinh túy nhất cho chính quê hương mình!”  
+  
+**Khát vọng xây dựng hệ sinh thái plasma tại Bách khoa Hà Nội**  
+  
+Trở về Bách khoa, TS. Nguyễn Quang Minh mang theo một hướng nghiên cứu còn khá mới mẻ tại Việt Nam: Ứng dụng công nghệ plasma không nhiệt kết hợp xúc tác cho các quá trình chuyển hóa hóa học. Mục tiêu là thúc đẩy các quá trình ở điều kiện nhẹ hơn, hướng tới các bài toán năng lượng xanh và môi trường, đặc biệt là chuyển hóa khí nhà kính thành sản phẩm có ích.  
+  
+Một số kết quả gần đây của anh cho thấy khả năng chuyển hóa CO₂ thành methanol (cồn công nghiệp) với độ chọn lọc trên 90% trong ống phản ứng plasma vận hành nhiệt độ và áp suất thường. Đây là bước tiến quan trọng trong hướng chuyển hóa CO₂ thành các sản phẩm lỏng.  
+  
+TS. Minh quan niệm CO₂ không phải là "gánh nặng phát thải" mà là một nguồn tài nguyên quý giá, bằng cách chuyển hóa CO2 thành các sản phẩm hóa học và nhiên liệu có giá trị, các nghiên cứu này vừa góp phần giảm phát thải khí gây hiệu ứng nhà kính, vừa tạo ra giá trị gia tăng từ chính nguồn carbon vốn được xem là chất thải. Anh đặt ra mục tiêu đầy tham vọng: Trong vòng 5 năm tới sẽ xây dựng được một nhóm nghiên cứu tiên phong, để khi nhắc đến plasma tại Việt Nam, giới khoa học sẽ nhớ ngay đến nhóm nghiên cứu tại Đại học Bách khoa Hà Nội.  
+
+![](/uploads/sys/news/2026_03/image_1.png)
+
+
+TS. Nguyễn Quang Minh
+
+Lộ trình bắt đầu từ 2-3 thành viên nòng cốt, triển khai các nghiên cứu cơ bản, chuẩn hóa quy trình thiết kế thí nghiệm, lưu trữ dữ liệu. Giai đoạn tiếp theo là thu hút, đồng triển khai đề tài với các đại học, viện nghiên cứu quốc tế, tiến tới đứng tên và triển khai các dự án độc lập.  
+  
+Chiến lược phát triển nhóm nghiên cứu của TS. Minh được đúc kết từ kinh nghiệm tại các đại học hàng đầu châu Âu. Anh áp dụng phương pháp "học qua nghiên cứu" và "học qua làm", sẽ rèn luyện cho sinh viên kỹ năng tư duy phản biện, cách đọc tài liệu và viết báo cáo theo chuẩn mực toàn cầu ngay từ khi tham gia. Đồng thời, anh đã và đang tận dụng mạng lưới đối tác cũ tại Anh, Pháp, Ba Lan để tạo ra các chương trình đồng hướng dẫn, mang về các dự án và nguồn quỹ tài trợ quốc tế, tạo cơ hội trao đổi cho sinh viên.  
+  
+Nhìn lại quyết định của mình, TS. Minh khẳng định anh không hề hối hận khi từ bỏ các cơ hội tại châu Âu. Anh tin rằng với sự ra đời của những đề án như HUST-Talent, khoảng cách phát triển khoa học giữa Việt Nam và thế giới đang dần được thu hẹp.   
+  
+Gửi gắm tới những nhà khoa học trẻ đang ở nước ngoài, TS. Nguyễn Quang Minh chia sẻ: “Thế giới có nhiều cơ hội, nhưng Việt Nam, đặc biệt là Đại học Bách khoa Hà Nội, cũng đang nỗ lực tạo ra một môi trường đủ tốt để các nhà khoa định vị bản thân!”  
+  
+Thu hút được nhân lực giỏi không chỉ giúp nâng tầm học thuật, mà còn khẳng định vị thế của đại học trong bản đồ giáo dục trong nước và quốc tế. Nhận thức rõ tầm quan trọng ấy, Đại học Bách khoa Hà Nội luôn sẵn sàng mở “đường băng” đón nhân tài!  
+
+|  |
+| --- |
+| Tìm hiểu chi tiết về Đề án thu hút và tuyển dụng giảng viên trẻ tài năng, chuyên gia, nhà khoa học đầu ngành giai đoạn 2025-2030 (HUST-Talent): [**TẠI ĐÂY**](/uploads/sys/news/2025_11/20250925_thong-tin-truyen-thong-v3.0.pdf)    Tiêu chuẩn và mô tả chi tiết yêu cầu công việc với từng vị trí tuyển dụng (theo chuyên ngành hoặc lĩnh vực nghiên cứu) tại: **<https://tuyendung.hust.edu.vn/#xuat-sac>** |
+
+**Tác giả:** [Nguyễn Thu Huệ](https://hust.edu.vn/vi/news/author/Nguyen-Thu-Hue/)

@@ -3,9 +3,9 @@ doc_id: news_04
 title: Sinh viên Bách khoa tự tin tỏa sáng trước 11 quốc gia thành viên ASEAN – Trung
   Quốc
 source_url: https://hust.edu.vn/vi/news/hoat-dong-chung/sinh-vien-bach-khoa-tu-tin-toa-sang-truoc-11-quoc-gia-thanh-vien-asean-trung-quoc-656008.html
-retrieved_at: '2026-08-04T10:19:17.403637'
+retrieved_at: '2026-08-04T11:51:22.063567'
 document_version: '1.0'
-audience: students
+audience: student
 ---
 
 # Sinh viên Bách khoa tự tin tỏa sáng trước 11 quốc gia thành viên ASEAN – Trung Quốc
