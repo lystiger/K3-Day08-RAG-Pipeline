@@ -35,3 +35,7 @@ langchain-openai>=0.1.0
 
 # Testing (dung de cham diem bai ca nhan)
 pytest>=7.0.0
+
+# Group project - UI (Role 4: FastAPI + web/index.html)
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
