@@ -1,7 +1,13 @@
 # BÁO CÁO NGHIỆM THU HOÀN THÀNH TOÀN BỘ DỰ ÁN RAG PIPELINE (HUST DOMAIN)
 
-> **Dự án:** K3-Day08-RAG-Pipeline  
-> **Người nghiệm thu:** Nguyễn Tuấn Anh (nguyentuananh512005@gmail.com)  
+> **Người nghiệm thu / Đại diện nhóm:** Nguyễn Tuấn Anh (nguyentuananh512005@gmail.com)  
+> **Thành viên nhóm:**  
+> 1. Nguyễn Gia Bảo (MSSV: 2A202601938) — Role 1: Team Leader & RAG Architect  
+> 2. Nguyễn Tuấn Anh (MSSV: 2A202601669) — Role 2: Data & Dense Search  
+> 3. Nguyễn Lê Minh (MSSV: 2A202601573) — Role 3: Sparse Search & Reranking  
+> 4. Đỗ Hùng Anh (MSSV: 2A202601175) — Role 4: Frontend & Generation  
+> 5. Nguyễn Thị Lý (MSSV: 2A202601962) — Role 5: Evaluation & QA  
+> 6. Nguyễn Thế Công (MSSV: 2A202601425) — Role 5: Evaluation & QA  
 > **Đơn vị phát triển hỗ trợ:** Antigravity AI  
 > **Ngày báo cáo:** 2026-08-04  
 > **Trạng thái dự án:** **HOÀN THÀNH 100% (MÃ NGUỒN SẠCH & ĐÃ CHẠY PYTEST 100% PASSED & ĐÁNH GIÁ RAGAS)**

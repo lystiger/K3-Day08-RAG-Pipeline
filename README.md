@@ -558,8 +558,13 @@ run_dashboard()
 ### Phân Công Công Việc
 
 | Thành viên | MSSV | Nhiệm vụ | Trạng thái |
-|-----------|------|----------|------------|
-| Nguyễn Tuấn Anh | 202601669 | Team Leader, RAG Architect, Data Crawling & ChromaDB Indexing (Role 1 & 2) | Hoàn thành 100% |
+|---|---|---|---|
+| **Nguyễn Gia Bảo** | 2A202601938 | **Role 1**: Team Leader & RAG Architect (Pipeline Orchestration, file `task9`, `supervisor.py`) | Hoàn thành 100% |
+| **Nguyễn Tuấn Anh** | 2A202601669 | **Role 2**: Data & Dense Search (Data Crawling, Chunking, Indexing ChromaDB, Semantic Search, file `task1-5`) | Hoàn thành 100% |
+| **Nguyễn Lê Minh** | 2A202601573 | **Role 3**: Sparse Search & Reranking (Lexical Search, RRF & Cross-Encoder, PageIndex Fallback, file `task6-8`) | Hoàn thành 100% |
+| **Đỗ Hùng Anh** | 2A202601175 | **Role 4**: Frontend & Generation (Document Reordering, Citation Generation, file `task10`, `app.py`) | Hoàn thành 100% |
+| **Nguyễn Thị Lý** | 2A202601962 | **Role 5**: Evaluation & QA (Golden Dataset, Ragas evaluation, A/B Testing report, `results.md`) | Hoàn thành 100% |
+| **Nguyễn Thế Công** | 2A202601425 | **Role 5**: Evaluation & QA (Golden Dataset, Ragas evaluation, A/B Testing report, `results.md`) | Hoàn thành 100% |
 
 ---
 
