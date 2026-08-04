@@ -559,10 +559,7 @@ run_dashboard()
 
 | Thành viên | MSSV | Nhiệm vụ | Trạng thái |
 |-----------|------|----------|------------|
-| | | | |
-| | | | |
-| | | | |
-| | | | |
+| Nguyễn Tuấn Anh | 202601669 | Team Leader, RAG Architect, Data Crawling & ChromaDB Indexing (Role 1 & 2) | Hoàn thành 100% |
 
 ---
 
