@@ -82,10 +82,28 @@ def semantic_search(query: str, top_k: int = 5) -> list[dict]:
     metadatas = results.get("metadatas", [[]])[0]
     distances = results.get("distances", [[]])[0]
 
+    # Cách quy đổi distance -> cosine similarity PHỤ THUỘC không gian đo của collection.
+    # chromadb >= 1.x BỎ QUA metadata={"hnsw:space": "cosine"} của Task 4 (nay phải dùng
+    # configuration={"hnsw": {"space": "cosine"}}), nên collection hiện tại đang là "l2".
+    # Với embedding đã chuẩn hoá (bge-m3, norm = 1.0):
+    #     squared L2 = 2 - 2*cos   ->   cos = 1 - dist/2
+    # Dùng công thức 1 - dist của cosine-space sẽ ra ĐÚNG MỘT NỬA giá trị thật
+    # (0.666 báo thành 0.333) khiến gate fallback của Task 9 luôn luôn kích hoạt.
+    space = "cosine"
+    try:
+        space = collection.configuration_json["hnsw"]["space"]
+    except Exception:
+        pass
+
     output = []
     for doc, meta, dist in zip(documents, metadatas, distances):
-        # Convert Cosine distance (1 - similarity) to Cosine similarity score
-        raw_score = 1.0 - float(dist)
+        dist = float(dist)
+        if space == "ip":
+            raw_score = 1.0 - dist
+        elif space == "cosine":
+            raw_score = 1.0 - dist
+        else:  # "l2" — squared euclidean trên vector đã chuẩn hoá
+            raw_score = 1.0 - dist / 2.0
         score = max(0.0, min(1.0, raw_score))
         output.append({
             "content": doc,

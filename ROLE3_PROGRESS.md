@@ -259,22 +259,30 @@ Kết quả BM25 trên truy vấn tiếng Việt thật:
 | `vi mạch bán dẫn` | 3 | `17.791` — đúng file thông báo vi mạch |
 | `quantum blockchain` | **0** | lọc `score == 0` hoạt động đúng |
 
-### 7.2 Hybrid end-to-end (BM25 thật + dense giả lập)
+### 7.2 Hybrid end-to-end — **DỰNG THẬT, không còn giả lập**
 
-`chroma_db/` chưa được build nên `semantic_search()` đang trả `[]`. Tôi giả lập dense bằng
-chunk lấy **từ chính corpus** (đúng `content` mà Task 5 sẽ trả về):
+`chroma_db/` đã có (489 chunk). Chạy `semantic_search()` + `lexical_search()` + `rerank_rrf()` thật:
 
 ```
-query: "điều kiện xét học bổng khuyến khích học tập"   sparse=10  dense=4  →  fused=5
+Q: điều kiện xét học bổng khuyến khích học tập     cosine=0.6663  overlap=2/5  -> HYBRID
+   1. [0.0323] BOTH   tuyen_sinh#145  'Điều kiện được xét, cấp học bổng KKHT: - Học bổng loại khá...'
+   2. [0.0320] BOTH   tuyen_sinh#144  '(1) Học bổng khuyến khích học tập (KKHT) ĐHBK Hà Nội...'
 
-1. [0.0323] BOTH    #143  Thí sinh đăng ký dự tuyển vào các chương trình liên kết...
-2. [0.0323] BOTH    #144  (1) Học bổng khuyến khích học tập (KKHT) ĐHBK Hà Nội...
-3. [0.0161] dense   #194
-4. [0.0161] sparse  #145  Điều kiện được xét, cấp học bổng KKHT: - Học bổng loại khá...
-5. [0.0156] dense   #4
+Q: mức học phí chương trình tiên tiến              cosine=0.6045  overlap=5/5  -> HYBRID
+   1. [0.0325] BOTH   tuyen_sinh#117  'Bảng 4. Mức học phí các chương trình Elitech...'
+   2. [0.0315] BOTH   tuyen_sinh#131  'Bảng 7. Mức học phí các chương trình tài năng...'
+
+Q: ngưỡng đảm bảo chất lượng ngành vi mạch bán dẫn cosine=0.6656  overlap=5/5  -> HYBRID
+   1. [0.0325] BOTH   vi_mach#1  'THÔNG BÁO NGƯỠNG ĐẢM BẢO CHẤT LƯỢNG...'
+   2. [0.0323] BOTH   vi_mach#2  'Căn cứ Công văn số 4431/BGDĐT-GDĐH...'
+
+Q: cách làm bánh chưng ngày Tết  (ngoài domain)    cosine=0.4286  overlap=0/5  -> FALLBACK ✓
 ```
 
-Hai chunk có mặt ở **cả hai** ranker chiếm đúng top-2 — hybrid search hoạt động như thiết kế.
+**`overlap=5/5`** nghĩa là cả 5 chunk trong top-5 sau fuse đều xuất hiện ở **cả** dense lẫn sparse —
+đúng cái mà RRF sinh ra để làm. Câu ngoài domain thì `overlap=0/5` và gate bật fallback đúng.
+
+Nhưng để có được kết quả này phải sửa **3 bug** — xem §7.4.
 
 ### 7.3 Task 8 — sửa 3 lỗi lộ ra khi gặp dữ liệu thật
 
@@ -297,7 +305,7 @@ Kiểm tra lại bằng pypdf: "Quyết định 6888/QĐ-ĐHBK ... Học sinh Si
 
 ---
 
-## 8. ⚠️ Hai việc CHƯA gỡ được — không nằm trong tay Role 3
+## 8. Trạng thái 2 việc phụ thuộc bên ngoài
 
 ### 8.1 Test Task 6 vẫn SKIP: corpus tiếng Việt vs test tiếng Anh
 
@@ -318,30 +326,168 @@ Nhưng nếu coach muốn thấy `PASSED` thay vì `SKIPPED` ở CP2 thì nhóm 
 
 > Tôi không tự thêm file tiếng Anh vào `data/` vì đó là thư mục Role 2 sở hữu.
 
-### 8.2 `chroma_db/` chưa được build
+### 8.2 ✅ `chroma_db/` đã build xong — và 2 bug trong đó đã được sửa
 
-`src/task4_chunking_indexing.py` và `task5_semantic_search.py` đã code xong nhưng **chưa ai chạy
-`run_pipeline()`** — thư mục `chroma_db/` không tồn tại, nên `semantic_search()` trả `[]`
-(nó check `if not CHROMA_DIR.exists(): return []`, không crash).
+Đã chạy `python -m src.task4_chunking_indexing`: 8 documents → 489 chunks → embed bằng
+`BAAI/bge-m3` (tải ~2.3 GB) → index vào `chroma_db/`.
 
-Cần Role 2 chạy:
-```bash
-python -m src.task4_chunking_indexing     # tải BAAI/bge-m3 (~2GB) + index 489 chunks
+Khi đo điểm cosine thật thì lộ ra 2 lỗi, **cả hai đã sửa xong** — xem §10.4 và §10.5.
+Kèm theo đó là đề xuất hiệu chuẩn lại ngưỡng fallback ở §10.6.
+
+---
+
+## 10. 🔴 BUG NẶNG trong Task 4 — vector store đang dùng L2 chứ không phải cosine
+
+### 10.1 Triệu chứng
+
 ```
-Xong bước này mới test được hybrid thật thay vì giả lập ở §7.2.
+Query: "học phí ngành khoa học máy tính là bao nhiêu"
+  semantic_search() trả score = 0.2637
+  cosine tính tay (bge-m3, normalize) = 0.6319      ← lệch hơn 2 lần
+```
+
+### 10.2 Nguyên nhân
+
+`index_to_vectorstore()` khai báo không gian đo bằng `metadata=`:
+
+```python
+# src/task4_chunking_indexing.py:196 — KHÔNG có tác dụng trên chromadb 1.5.9
+collection = client.get_or_create_collection(
+    name=collection_name,
+    embedding_function=None,
+    metadata={"hnsw:space": "cosine"}      # ← bị bỏ qua LẶNG LẼ, không warning
+)
+```
+
+Kiểm tra collection vừa tạo:
+```python
+col.metadata            # None                       ← metadata bị nuốt luôn
+col.configuration_json  # {'hnsw': {'space': 'l2', ...}}   ← rơi về mặc định L2
+```
+
+Chroma trả **bình phương khoảng cách Euclid**. Với vector đã chuẩn hoá thì
+`|a-b|² = 2 - 2·cos`, nên `score = 1 - distance` của Task 5 thực chất đang tính `2·cos - 1`
+chứ không phải `cos`. Kiểm chứng: `2 × 0.6319 − 1 = 0.2638` ≈ đúng con số `0.2637` quan sát được.
+
+### 10.3 Hệ quả — làm hỏng đúng cái gate fallback của Task 9
+
+Cùng bộ embedding, chỉ khác không gian đo:
+
+| Query | space **cosine** (đúng) | space **l2** (hiện tại) |
+|---|:--:|:--:|
+| `học phí ngành khoa học máy tính là bao nhiêu` | **0.6319** | 0.2637 |
+| `cách nấu phở bò gia truyền` *(lạc đề)* | **0.4015** | 0.0000 |
+
+Ngưỡng `0.48` mà `LAB_GUIDE.md` CP3 đưa ra **tách hai trường hợp này rất gọn** — nhưng chỉ khi
+space là cosine. Với L2 hiện tại, đo trên 5 query thật thì **5/5 đều dưới 0.48** → fallback
+PageIndex **luôn luôn bật**, kể cả câu hỏi hoàn toàn đúng chủ đề.
+
+### 10.4 ✅ ĐÃ SỬA — không cần reindex
+
+Có 2 đường sửa. Tôi chọn đường **không phải embed lại 489 chunk**:
+
+**Đã làm — `src/task5_semantic_search.py` quy đổi theo đúng không gian đo của collection:**
+
+```python
+space = collection.configuration_json["hnsw"]["space"]   # đọc thẳng từ collection
+...
+if space in ("cosine", "ip"):
+    raw_score = 1.0 - dist
+else:                          # "l2" — squared euclidean trên vector đã chuẩn hoá
+    raw_score = 1.0 - dist / 2.0
+```
+
+Đúng về mặt toán học (`|a-b|² = 2 - 2·cos` ⟹ `cos = 1 - dist/2`) và **an toàn cả khi sau này
+Role 2 reindex sang space cosine** — lúc đó nhánh `cosine` tự động được chọn, không phải sửa lại.
+
+Đã xác minh điều kiện tiên quyết: embedding của `bge-m3` **đã chuẩn hoá sẵn**
+(`norm(query) = 1.0`, `norm(stored) = 1.0000000284`), nên công thức trên áp dụng được.
+
+```
+chroma distance      : 0.6674
+score Task5 CŨ       : 0.3326      ← sai
+score Task5 MỚI      : 0.6663
+cosine tính tay      : 0.6663      ← khớp tuyệt đối ✓
+```
+
+**Đường còn lại (tuỳ chọn, sạch hơn về lâu dài):** Role 2 đổi Task 4 sang
+`configuration={"hnsw": {"space": "cosine"}}` rồi `rm -rf chroma_db/ && python -m src.task4_chunking_indexing`.
+Làm hay không đều được — Task 5 giờ chạy đúng ở cả hai trường hợp.
+
+### 10.5 ✅ ĐÃ XOÁ record rác — nó tệ hơn tưởng
+
+```
+id: test_1 | metadata: {'source': 's.md', 'type': 'legal'} | document: 'nội dung test'
+```
+
+Không phải chỉ là "thừa 1 record". Embedding của nó **toàn số 0**:
+
+```
+dim: (1024,)   norm: 0.0   số phần tử khác 0: 0
+```
+
+Với squared-L2, vector 0 cho khoảng cách **đúng bằng 1.0 với MỌI query đã chuẩn hoá** → nó tạo ra
+một cái **sàn cứng `score = 0.5`**. Hệ quả: mọi câu hỏi lạc đề đều trả về `'nội dung test'` ở
+**hạng 1** với điểm 0.5000 y hệt nhau, che mất điểm thật:
+
+```
+TRƯỚC khi xoá — 5 câu hỏi lạc đề khác nhau, cùng ra một con số:
+  0.5000  cách làm bánh chưng ngày Tết        -> s.md 'nội dung test'
+  0.5000  giá vé máy bay đi Đà Nẵng           -> s.md 'nội dung test'
+  0.5000  cách chăm sóc mèo con               -> s.md 'nội dung test'
+
+SAU khi xoá — điểm thật hiện ra:
+  0.4286  cách làm bánh chưng ngày Tết
+  0.4535  giá vé máy bay đi Đà Nẵng
+  0.3658  cách chăm sóc mèo con
+```
+
+Đã chạy `col.delete(ids=["test_1"])` → collection còn **489 record, khớp đúng BM25**.
+Record này không do dòng code nào trong repo sinh ra (`grep` cả `src/`, `tests/`, `app.py`) —
+gần như chắc chắn từ một lần chạy thử thủ công.
+
+### 10.6 📣 Ngưỡng fallback: đề xuất **0.55**, không phải 0.48
+
+Sau khi sửa §10.4 + §10.5, đo top-1 cosine trên 11 query (6 đúng chủ đề, 5 lạc đề):
+
+| Nhóm | Dải điểm |
+|---|---|
+| **Đúng chủ đề** (học bổng, học phí, vi mạch, xét tuyển tài năng, liên kết quốc tế, quy định SV) | `0.6045 → 0.7048` |
+| **Lạc đề** (bánh chưng, vé máy bay, chăm mèo, bóng đá, phở bò) | `0.3658 → 0.4893` |
+
+Khoảng trống nằm ở `0.4893 … 0.6045`.
+
+⚠️ **`0.48` của `LAB_GUIDE` CP3 nằm THẤP HƠN đỉnh của nhóm lạc đề (`0.4893`)** — query
+*"kết quả bóng đá ngoại hạng Anh"* đạt `0.4893 > 0.48` nên **sẽ không kích hoạt fallback**.
+Đặt giữa khoảng trống thì an toàn hơn hẳn:
+
+```python
+# src/task9_retrieval_pipeline.py — Role 1
+SIMILARITY_THRESHOLD = 0.55
+```
+
+Nếu coach hỏi vì sao lệch tài liệu: `0.48` hợp lý với embedding model khác, nhưng `bge-m3` có
+**sàn tương đồng cao** cho tiếng Việt (hai câu chẳng liên quan gì vẫn ~0.4) → phải hiệu chuẩn
+lại trên corpus thật. **Đây là số đo được, không phải số chọn bừa** — đúng tinh thần câu hỏi
+"vì sao không dùng điểm RRF làm ngưỡng".
 
 ---
 
 ## 9. Việc kế tiếp cho bạn
 
-Phần code của Role 3 đã xong. 4 việc còn lại đều là **hỏi/nhắn người khác**, không phải code:
+Pipeline retrieval giờ **chạy đúng đầu-cuối trên dữ liệu thật**. Việc còn lại đều là
+**nhắn người khác**, không phải code:
 
-1. **Role 1** — báo §1: `rerank()` giờ mặc định `"cross_encoder"`, Task 9 phải gọi `rerank_rrf()`
-   trực tiếp. Và nhắc lại: gate fallback so với **`dense_results[0]["score"]` (cosine)**, đúng như
-   `LAB_GUIDE` CP3 ghi `< 0.48` — **tuyệt đối không** so với điểm RRF (`0.016 → 0.033`).
-2. **Role 1** — xin `PAGEINDEX_API_KEY` (W3). Đây là thứ duy nhất còn chặn Role 3.
-   Có key là chạy được ngay, 8 PDF đã convert sẵn trong `data/pageindex_pdfs/`.
-3. **Role 2** — chạy `python -m src.task4_chunking_indexing` để dựng `chroma_db/` (§8.2),
-   và chốt `500/50` hay `800/100` (§6.1).
-4. **Cả nhóm** — quyết định §8.1 (test tiếng Anh vs corpus tiếng Việt). Nếu chọn phương án 2
-   thì đây là **điểm cộng khi thuyết trình**, không phải điểm trừ.
+1. **Role 1 — 2 con số phải đổi trong Task 9:**
+   - `SIMILARITY_THRESHOLD = 0.55` (không phải `0.48` — §10.6, có số đo kèm)
+   - `RERANK_METHOD = "cross_encoder"`; gọi `rerank_rrf()` **trực tiếp** để fuse (§1)
+   - Gate so với `dense_results[0]["score"]` (cosine) — **tuyệt đối không** dùng điểm RRF (`0.016 → 0.033`)
+2. **Role 1** — xin `PAGEINDEX_API_KEY` (W3). Thứ **duy nhất** còn chặn Role 3.
+   Có key là chạy ngay được, 8 PDF đã convert sẵn trong `data/pageindex_pdfs/`.
+3. **Role 2** — báo là tôi đã sửa `task5_semantic_search.py` (§10.4) và xoá 1 record rác
+   trong `chroma_db` (§10.5). Nếu muốn sạch hơn thì đổi Task 4 sang
+   `configuration={"hnsw": {"space": "cosine"}}` rồi reindex — **không bắt buộc**, Task 5 giờ
+   chạy đúng ở cả hai không gian đo.
+4. **Role 2** — chốt `500/50` hay `800/100` (§6.1). Nếu đổi thì reindex một lần cho cả hai việc.
+5. **Cả nhóm** — quyết định §8.1 (test tiếng Anh vs corpus tiếng Việt). Chọn phương án 2 thì
+   đây là **điểm cộng khi thuyết trình**, không phải điểm trừ.
