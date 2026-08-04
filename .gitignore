@@ -27,6 +27,6 @@ pageindex_pdfs/
 Thumbs.db
 
 # Vector store and Agent logs
-chroma_db/
 .agents/
+
 
