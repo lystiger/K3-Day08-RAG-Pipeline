@@ -21,10 +21,10 @@ from dotenv import load_dotenv
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=True)
 
-# Ghi đè cứng bằng Custom API Cheap của Sếp để tránh mọi lỗi nạp hoặc đồng bộ sai lệch
-os.environ["OPENAI_API_KEY"] = "sk-d02be6baa44ca9bf-6clngl-7a7b5895"
-os.environ["OPENAI_BASE_URL"] = "https://ai.api-cheap.site/v1"
-os.environ["LLM_MODEL"] = "deepseek-v4-flash"
+# Đảm bảo các biến môi trường hệ thống được cấu hình đúng từ file .env
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
+os.environ["OPENAI_BASE_URL"] = os.getenv("OPENAI_BASE_URL", "")
+os.environ["LLM_MODEL"] = os.getenv("LLM_MODEL", "deepseek-v4-flash")
 
 from .task9_retrieval_pipeline import retrieve
 
@@ -159,12 +159,10 @@ def generate_with_citation(query: str, top_k: int = TOP_K, use_reranking: bool =
     # Step 4: Build prompt
     user_message = f"""Context:\n{context}\n\n---\n\nQuestion: {query}"""
 
-    # Step 5: Call LLM (OpenRouter/Custom API)
-    from openai import OpenAI
-    # Ghi đè cứng trực tiếp ở đây để tránh mọi sự can thiệp từ biến môi trường bên ngoài
-    api_key = "sk-d02be6baa44ca9bf-6clngl-7a7b5895"
-    base_url = "https://ai.api-cheap.site/v1"
-    model_name = "deepseek-v4-flash"
+    # Lấy thông tin từ các biến môi trường đã được nạp an toàn
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    base_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+    model_name = os.getenv("LLM_MODEL", "deepseek-v4-flash")
 
     print(f"\nDEBUG GENERATION: api_key={api_key[:15]}... base_url={base_url} model={model_name}\n")
     client = OpenAI(api_key=api_key, base_url=base_url)

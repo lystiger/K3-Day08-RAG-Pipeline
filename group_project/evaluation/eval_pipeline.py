@@ -38,17 +38,14 @@ import os
 
 import json
 import pandas as pd
-from pathlib import Path
-from dotenv import load_dotenv
-
 # Load env variables từ đúng thư mục dự án và ghi đè thủ công để tránh bị đè bởi biến môi trường hệ thống
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=True)
 
-# Ghi đè cứng bằng Custom API Cheap của Sếp để tránh mọi lỗi nạp hoặc đồng bộ sai lệch
-os.environ["OPENAI_API_KEY"] = "sk-d02be6baa44ca9bf-6clngl-7a7b5895"
-os.environ["OPENAI_BASE_URL"] = "https://ai.api-cheap.site/v1"
-os.environ["LLM_MODEL"] = "deepseek-v4-flash"
+# Đảm bảo các biến môi trường hệ thống được cấu hình đúng từ file .env
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
+os.environ["OPENAI_BASE_URL"] = os.getenv("OPENAI_BASE_URL", "")
+os.environ["LLM_MODEL"] = os.getenv("LLM_MODEL", "deepseek-v4-flash")
 
 GOLDEN_DATASET_PATH = Path(__file__).parent / "golden_dataset.json"
 RESULTS_PATH = Path(__file__).parent / "results.md"
@@ -93,11 +90,11 @@ def evaluate_with_ragas(rag_pipeline, golden_dataset: list[dict], use_reranking:
 
     dataset = Dataset.from_dict(eval_data)
     
-    # Cấu hình Custom LLM và Local Embeddings cho Ragas - Hardcode trực tiếp
+    # Cấu hình Custom LLM và Local Embeddings cho Ragas
     llm = ChatOpenAI(
-        model="deepseek-v4-flash",
-        openai_api_key="sk-d02be6baa44ca9bf-6clngl-7a7b5895",
-        openai_api_base="https://ai.api-cheap.site/v1"
+        model=os.getenv("LLM_MODEL", "deepseek-v4-flash"),
+        openai_api_key=os.getenv("OPENAI_API_KEY", ""),
+        openai_api_base=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
     )
     
     # Tải BAAI/bge-m3 cục bộ để so sánh ngữ nghĩa trong Ragas
