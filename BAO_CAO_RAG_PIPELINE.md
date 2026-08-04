@@ -8,7 +8,6 @@
 > 4. Đỗ Hùng Anh (MSSV: 2A202601175) — Role 4: Frontend & Generation  
 > 5. Nguyễn Thị Lý (MSSV: 2A202601962) — Role 5: Evaluation & QA  
 > 6. Nguyễn Thế Công (MSSV: 2A202601425) — Role 5: Evaluation & QA  
-> **Đơn vị phát triển hỗ trợ:** Antigravity AI  
 > **Ngày báo cáo:** 2026-08-04  
 > **Trạng thái dự án:** **HOÀN THÀNH 100% (MÃ NGUỒN SẠCH & ĐÃ CHẠY PYTEST 100% PASSED & ĐÁNH GIÁ RAGAS)**
 
