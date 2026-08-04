@@ -14,9 +14,17 @@ Base URL: "https://openrouter.ai/api/v1", dùng chung interface với OpenAI SDK
 """
 
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load env variables từ đúng thư mục dự án và ghi đè thủ công để tránh bị đè bởi biến môi trường hệ thống
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=True)
+
+# Ghi đè cứng bằng Custom API Cheap của Sếp để tránh mọi lỗi nạp hoặc đồng bộ sai lệch
+os.environ["OPENAI_API_KEY"] = "sk-d02be6baa44ca9bf-6clngl-7a7b5895"
+os.environ["OPENAI_BASE_URL"] = "https://ai.api-cheap.site/v1"
+os.environ["LLM_MODEL"] = "deepseek-v4-flash"
 
 from .task9_retrieval_pipeline import retrieve
 
@@ -77,15 +85,12 @@ def reorder_for_llm(chunks: list[dict]) -> list[dict]:
     Returns:
         List reordered để maximize LLM attention.
     """
-    # TODO: Implement reordering
-    #
-    # if len(chunks) <= 2:
-    #     return chunks
-    #
-    # front = chunks[::2]   # index 0, 2, 4 -> đặt ở đầu
-    # back = chunks[1::2]   # index 1, 3    -> đặt ở cuối (reversed)
-    # return front + back[::-1]
-    raise NotImplementedError("Implement reorder_for_llm")
+    if len(chunks) <= 2:
+        return chunks
+
+    front = chunks[::2]   # index 0, 2, 4 -> đặt ở đầu
+    back = chunks[1::2]   # index 1, 3    -> đặt ở cuối (reversed)
+    return front + back[::-1]
 
 
 # =============================================================================
@@ -103,25 +108,22 @@ def format_context(chunks: list[dict]) -> str:
     Returns:
         Formatted context string.
     """
-    # TODO: Implement context formatting
-    #
-    # context_parts = []
-    # for i, chunk in enumerate(chunks, 1):
-    #     source = chunk.get("metadata", {}).get("source", f"Source {i}")
-    #     doc_type = chunk.get("metadata", {}).get("type", "unknown")
-    #     context_parts.append(
-    #         f"[Document {i} | Source: {source} | Type: {doc_type}]\n"
-    #         f"{chunk['content']}\n"
-    #     )
-    # return "\n---\n".join(context_parts)
-    raise NotImplementedError("Implement format_context")
+    context_parts = []
+    for i, chunk in enumerate(chunks, 1):
+        source = chunk.get("metadata", {}).get("source", f"Source {i}")
+        doc_type = chunk.get("metadata", {}).get("type", "unknown")
+        context_parts.append(
+            f"[Document {i} | Source: {source} | Type: {doc_type}]\n"
+            f"{chunk['content']}\n"
+        )
+    return "\n---\n".join(context_parts)
 
 
 # =============================================================================
 # GENERATION
 # =============================================================================
 
-def generate_with_citation(query: str, top_k: int = TOP_K) -> dict:
+def generate_with_citation(query: str, top_k: int = TOP_K, use_reranking: bool = True) -> dict:
     """
     End-to-end RAG generation có citation.
 
@@ -135,6 +137,8 @@ def generate_with_citation(query: str, top_k: int = TOP_K) -> dict:
 
     Args:
         query: Câu hỏi của user
+        top_k: Số lượng chunks lấy ra
+        use_reranking: Có sử dụng reranking hay không
 
     Returns:
         {
@@ -143,44 +147,46 @@ def generate_with_citation(query: str, top_k: int = TOP_K) -> dict:
             'retrieval_source': str  # 'hybrid' hoặc 'pageindex'
         }
     """
-    # TODO: Implement generation pipeline
-    #
-    # # Step 1: Retrieve
-    # chunks = retrieve(query, top_k=top_k)
-    #
-    # # Step 2: Reorder
-    # reordered = reorder_for_llm(chunks)
-    #
-    # # Step 3: Format context
-    # context = format_context(reordered)
-    #
-    # # Step 4: Build prompt
-    # user_message = f"""Context:\n{context}\n\n---\n\nQuestion: {query}"""
-    #
-    # # Step 5: Call LLM (OpenRouter — OpenAI-compatible API)
-    # from openai import OpenAI
-    # api_key = os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
-    # client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
-    #
-    # response = client.chat.completions.create(
-    #     model=LLM_MODEL,
-    #     messages=[
-    #         {"role": "system", "content": SYSTEM_PROMPT},
-    #         {"role": "user", "content": user_message}
-    #     ],
-    #     temperature=TEMPERATURE,
-    #     top_p=TOP_P,
-    # )
-    #
-    # answer = response.choices[0].message.content
-    #
-    # # Step 6: Return
-    # return {
-    #     "answer": answer,
-    #     "sources": chunks,
-    #     "retrieval_source": chunks[0].get("source", "hybrid") if chunks else "none"
-    # }
-    raise NotImplementedError("Implement generate_with_citation")
+    # Step 1: Retrieve
+    chunks = retrieve(query, top_k=top_k, use_reranking=use_reranking)
+
+    # Step 2: Reorder
+    reordered = reorder_for_llm(chunks)
+
+    # Step 3: Format context
+    context = format_context(reordered)
+
+    # Step 4: Build prompt
+    user_message = f"""Context:\n{context}\n\n---\n\nQuestion: {query}"""
+
+    # Step 5: Call LLM (OpenRouter/Custom API)
+    from openai import OpenAI
+    # Ghi đè cứng trực tiếp ở đây để tránh mọi sự can thiệp từ biến môi trường bên ngoài
+    api_key = "sk-d02be6baa44ca9bf-6clngl-7a7b5895"
+    base_url = "https://ai.api-cheap.site/v1"
+    model_name = "deepseek-v4-flash"
+
+    print(f"\nDEBUG GENERATION: api_key={api_key[:15]}... base_url={base_url} model={model_name}\n")
+    client = OpenAI(api_key=api_key, base_url=base_url)
+
+    response = client.chat.completions.create(
+        model=model_name,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_message}
+        ],
+        temperature=TEMPERATURE,
+        top_p=TOP_P,
+    )
+
+    answer = response.choices[0].message.content
+
+    # Step 6: Return
+    return {
+        "answer": answer,
+        "sources": chunks,
+        "retrieval_source": chunks[0].get("source", "hybrid") if chunks else "none"
+    }
 
 
 if __name__ == "__main__":

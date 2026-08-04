@@ -1,17 +1,82 @@
 [
   {
-    "question": "Học phí hàng năm của chương trình Business tại RMIT Vietnam là bao nhiêu?",
-    "expected_answer": "Khoảng 375.840.000 VND mỗi năm (tùy chương trình cụ thể).",
-    "expected_context": "Trang Tuition Fees, mục Undergraduate Programs"
+    "question": "Quyết định 6888/QĐ-ĐHBK cập nhật Quy định Công tác Học sinh Sinh viên Đại học Bách khoa Hà Nội có nội dung chi tiết quy định về những lĩnh vực nào?",
+    "expected_answer": "Nội dung chi tiết tài liệu quy định về đào tạo, điều kiện trúng tuyển, quy chế học bổng, và các chính sách hỗ trợ người học tại Đại học Bách khoa Hà Nội.",
+    "expected_context": "hust_qd_6888_cap_nhat.md"
   },
   {
-    "question": "Học phí được thanh toán theo hình thức nào?",
-    "expected_answer": "Thanh toán theo từng học kỳ, tính theo từng môn học đã đăng ký.",
-    "expected_context": "Trang Tuition Fees, mục Payment Structure"
+    "question": "Theo Thông báo ngưỡng đảm bảo chất lượng đầu vào lĩnh vực Vi mạch Bán dẫn năm 2026, ngưỡng yêu cầu được xác định dựa trên điểm thi nào và bao gồm bao nhiêu tiêu chí?",
+    "expected_answer": "Ngưỡng yêu cầu được xác định dựa trên điểm thi TNTHPT (không tính điểm quy đổi tiếng Anh) và bao gồm 2 tiêu chí.",
+    "expected_context": "hust_thong_bao_vi_mach_ban_dan_2026.md"
   },
   {
-    "question": "Trường có cung cấp ký túc xá trong khuôn viên không?",
-    "expected_answer": "Không — trường không cung cấp chỗ ở trong khuôn viên, nhưng có đội ngũ hỗ trợ sinh viên tìm chỗ ở gần trường.",
-    "expected_context": "Trang Accommodation Services"
+    "question": "Theo Thông báo ngưỡng đảm bảo chất lượng đầu vào lĩnh vực Vi mạch Bán dẫn năm 2026, tiêu chí thứ nhất về tổng điểm thi được quy định như thế nào?",
+    "expected_answer": "Tổng điểm thi của 3 môn trong số các tổ hợp xét tuyển điểm thi TNTHPT vào các chương trình đào tạo đạt từ 22,75 điểm trở lên.",
+    "expected_context": "hust_thong_bao_vi_mach_ban_dan_2026.md"
+  },
+  {
+    "question": "Theo Quyết định phê duyệt Thông tin tuyển sinh đại học năm 2026 của Đại học Bách khoa Hà Nội, Quy chế tuyển sinh đại học được ban hành kèm theo Quyết định số bao nhiêu và ngày nào của Giám đốc Đại học Bách khoa Hà Nội?",
+    "expected_answer": "Quy chế tuyển sinh đại học ban hành kèm theo Quyết định số 5730/QĐ-ĐHBK ngày 05 tháng 6 năm 2025 của Giám đốc Đại học Bách khoa Hà Nội.",
+    "expected_context": "hust_thong_tin_tuyen_sinh_2026.md"
+  },
+  {
+    "question": "Theo tài liệu teacher_dinh_muc_giang_day.md, văn bản được Giám đốc Đại học Bách khoa Hà Nội phê duyệt là gì và căn cứ vào Luật Giáo dục đại học ngày nào?",
+    "expected_answer": "Phê duyệt Thông tin tuyển sinh đại học năm 2026 của Đại học Bách khoa Hà Nội; căn cứ Luật Giáo dục đại học ngày 10 tháng 12 năm 2025.",
+    "expected_context": "teacher_dinh_muc_giang_day.md"
+  },
+  {
+    "question": "Theo tài liệu teacher_dinh_muc_giang_day.md, Quy chế tuyển sinh đại học được ban hành kèm theo Quyết định số bao nhiêu và ngày ký là ngày nào?",
+    "expected_answer": "Quy chế tuyển sinh đại học ban hành kèm theo Quyết định số 5730/QĐ-ĐHBK ngày 05 tháng 6 năm 2025 của Giám đốc Đại học Bách khoa Hà Nội.",
+    "expected_context": "teacher_dinh_muc_giang_day.md"
+  },
+  {
+    "question": "Tài liệu teacher_qd_6888_can_bo.md có doc_id là gì và đối tượng áp dụng (audience) là ai?",
+    "expected_answer": "doc_id: legal_05; audience: teacher.",
+    "expected_context": "teacher_qd_6888_can_bo.md"
+  },
+  {
+    "question": "Theo tài liệu teacher_qd_6888_can_bo.md, nội dung chi tiết của Quyết định 6888/QĐ-ĐHBK quy định về những vấn đề gì?",
+    "expected_answer": "Quy định về định mức giảng dạy, khối lượng công tác, chế độ làm việc và công tác cán bộ giảng viên tại Đại học Bách khoa Hà Nội.",
+    "expected_context": "teacher_qd_6888_can_bo.md"
+  },
+  {
+    "question": "Kỳ tuyển sinh năm 2026, Đại học Bách khoa Hà Nội công bố tổng chỉ tiêu tuyển sinh là bao nhiêu sinh viên, cho bao nhiêu chương trình đào tạo, và chính sách học bổng theo Nghị định số 179/2026/NĐ-CP được áp dụng cho bao nhiêu chương trình?",
+    "expected_answer": "Kỳ tuyển sinh năm 2026, Đại học Bách khoa Hà Nội công bố tổng chỉ tiêu tuyển sinh là 9.700 sinh viên cho 68 chương trình đào tạo. Điểm mới quan trọng trong năm học này là việc triển khai chính sách học bổng theo Nghị định số 179/2026/NĐ-CP của Chính phủ cho 55 chương trình thuộc các lĩnh vực đào tạo tài năng, vi mạch bán dẫn, khoa học cơ bản, kỹ thuật then chốt và công nghệ chiến lược.",
+    "expected_context": "article_01.md"
+  },
+  {
+    "question": "Thông tin tuyển sinh đại học năm 2026 của Đại học Bách khoa Hà Nội được ban hành căn cứ vào Thông tư số mấy, ngày bao nhiêu của Bộ Giáo dục và Đào tạo?",
+    "expected_answer": "Căn cứ Quy chế tuyển sinh các ngành đào tạo trình độ đại học và ngành Giáo dục Mầm non trình độ cao đẳng ban hành kèm theo Thông tư số 06/2026/TT-BGDĐT ngày 15 tháng 02 năm 2026 của Bộ trưởng Bộ Giáo dục và Đào tạo, Giám đốc Đại học Bách khoa Hà Nội đã ký ban hành Thông tin tuyển sinh đại học của Đại học Bách khoa Hà Nội chính thức năm 2026.",
+    "expected_context": "article_02.md"
+  },
+  {
+    "question": "Theo Hướng dẫn đăng ký xác thực chứng chỉ Ngoại ngữ 2026, thí sinh cần đạt điểm thi tốt nghiệp THPT năm 2026 môn ngoại ngữ từ bao nhiêu trở lên, và chứng chỉ tiếng Anh VSTEP được quy đổi thành điểm môn tiếng Anh khi xét tuyển theo các tổ hợp nào?",
+    "expected_answer": "Có điểm thi tốt nghiệp THPT năm 2026 môn tiếng Anh hoặc tiếng Trung (đối với FL3) hoặc tiếng Hàn (đối với FL4) đạt từ 6.5 điểm trở lên. Thí sinh có chứng chỉ Ngoại ngữ (chứng chỉ tiếng Anh VSTEP, chứng chỉ tiếng Anh quốc tế hoặc các chứng chỉ Ngoại ngữ khác tương đương) có thể quy đổi thành điểm môn tiếng Anh khi xét tuyển theo điểm thi tốt nghiệp THPT (tổ hợp A01, D01, D07).",
+    "expected_context": "article_03.md"
+  },
+  {
+    "question": "Hội nghị Quốc tế lần thứ 11 về Truyền thông và Điện tử (IEEE ICCE 2026) diễn ra tại đâu, trong khoảng thời gian nào, và gắn với dấu mốc kỷ niệm bao nhiêu năm thành lập Đại học Bách khoa Hà Nội?",
+    "expected_answer": "Từ ngày 29 - 31/7, Thành phố Nha Trang sẽ trở thành tâm điểm của cộng đồng khoa học quốc tế khi đón chào Hội nghị Quốc tế lần thứ 11 về Truyền thông và Điện tử (IEEE ICCE 2026). Sự kiện năm nay mang tầm vóc đặc biệt, ghi dấu chặng đường 20 năm phát triển của một diễn đàn học thuật uy tín, đồng thời gắn liền với dấu mốc kỷ niệm 70 năm thành lập Đại học Bách khoa Hà Nội - đơn vị giữ vai trò nòng cốt trong việc đặt nền móng và duy trì sức sống cho chuỗi hội nghị này.",
+    "expected_context": "article_05.md"
+  },
+  {
+    "question": "TS. Nguyễn Quang Minh được giới thiệu trong bài viết sở hữu hai tấm bằng tiến sĩ tại những quốc gia nào và giữ vai trò gì tại start-up công nghệ plasma ở Anh?",
+    "expected_answer": "TS. Nguyễn Quang Minh sở hữu hai tấm bằng tiến sĩ tại Pháp và Ba Lan, là người đồng sáng lập, Giám đốc Công nghệ của một start-up công nghệ plasma tại Anh.",
+    "expected_context": "teacher_article_01.md"
+  },
+  {
+    "question": "TS. Nguyễn Quang Minh tham gia Đề án thu hút và tuyển dụng giảng viên trẻ tài năng, chuyên gia, nhà khoa học đầu ngành của Đại học Bách khoa Hà Nội giai đoạn nào, tên viết tắt là gì?",
+    "expected_answer": "TS. Nguyễn Quang Minh tham gia Đề án thu hút và tuyển dụng giảng viên trẻ tài năng, chuyên gia, nhà khoa học đầu ngành giai đoạn 2025-2030 (HUST-Talent).",
+    "expected_context": "teacher_article_01.md"
+  },
+  {
+    "question": "Theo bài viết 'Bộ GD&ĐT công bố loạt quyết định bổ nhiệm lãnh đạo cơ sở GD đại học, GD nghề nghiệp trực thuộc', Bộ trưởng Bộ GD&ĐT nào đã trao các quyết định bổ nhiệm cho ban lãnh đạo Đại học Bách khoa Hà Nội trong Hội nghị chiều 5/6?",
+    "expected_answer": "Bộ trưởng Bộ Giáo dục và Đào tạo Hoàng Minh Sơn trao các quyết định bổ nhiệm cho ban lãnh đạo Đại học Bách khoa Hà Nội.",
+    "expected_context": "teacher_article_02.md"
+  },
+  {
+    "question": "GS.TS. NGƯT. Lê Anh Tuấn được bổ nhiệm giữ chức Giám đốc Đại học Bách khoa Hà Nội theo quyết định số mấy và ban hành ngày nào?",
+    "expected_answer": "Ngày 22/5/2026, Bộ Giáo dục và Đào tạo ban hành quyết định số 1288/QĐ-BGDDT về việc bổ nhiệm GS.TS. NGƯT. Lê Anh Tuấn giữ chức vụ Giám đốc Đại học Bách khoa Hà Nội.",
+    "expected_context": "teacher_article_03.md"
   }
 ]

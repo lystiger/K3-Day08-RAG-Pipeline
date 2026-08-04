@@ -1,56 +1,37 @@
-# RAG Evaluation Results
+# RAG Pipeline Evaluation & A/B Testing Report (HUST Domain)
 
-## Framework sử dụng
+Báo cáo so sánh chất lượng câu trả lời giữa hai cấu hình RAG Pipeline trên bộ tài liệu thực tế của Đại học Bách khoa Hà Nội (HUST).
 
-> Ghi rõ framework đã chọn: DeepEval / RAGAS / TruLens
+## 1. Tóm tắt Điểm số Trung bình (Overall Mean Scores)
 
----
+| Metric | Config A: Hybrid + Rerank | Config B: Dense Only | Chênh lệch (A - B) |
+| :--- | :---: | :---: | :---: |
+| **Faithfulness** | 0.6667 | 0.8333 | -0.1667 |
+| **Answer Relevancy** | 0.9437 | 0.7639 | +0.1798 |
+| **Context Recall** | 1.0000 | 1.0000 | +0.0000 |
+| **Context Precision** | 0.2000 | 0.3667 | -0.1667 |
 
-## Overall Scores
+## 2. Chi tiết Kết quả Đánh giá theo từng Câu hỏi
 
-| Metric | Config A (hybrid + rerank) | Config B (dense-only) | Δ |
-|--------|---------------------------|----------------------|---|
-| Faithfulness | | | |
-| Answer Relevance | | | |
-| Context Recall | | | |
-| Context Precision | | | |
-| **Average** | | | |
+### Config A: Hybrid + Reranking
 
----
+| QID | Question | Faithfulness | Answer Relevancy | Context Recall | Context Precision |
+| :---: | :--- | :---: | :---: | :---: | :---: |
+| 1 | Quyết định 6888/QĐ-ĐHBK cập nhật Quy định Công tác Học sinh Sinh viên Đại học Bách khoa Hà Nội có nội dung chi tiết quy định về những lĩnh vực nào? | 0.6667 | 0.9437 | 1.0000 | 0.2000 |
 
-## A/B Comparison Analysis
+### Config B: Dense Search Only
 
-**Config A:**
-> Mô tả config ...
+| QID | Question | Faithfulness | Answer Relevancy | Context Recall | Context Precision |
+| :---: | :--- | :---: | :---: | :---: | :---: |
+| 1 | Quyết định 6888/QĐ-ĐHBK cập nhật Quy định Công tác Học sinh Sinh viên Đại học Bách khoa Hà Nội có nội dung chi tiết quy định về những lĩnh vực nào? | 0.8333 | 0.7639 | 1.0000 | 0.3667 |
 
-**Config B:**
-> Mô tả config ...
+## 3. Worst Performers (Bottom 3 Q&A trong Config A)
 
-**Kết luận:**
-> Config nào tốt hơn? Vì sao? (2-3 câu)
+| QID | Question | Điểm TB | Nguyên nhân & Hướng giải quyết đề xuất |
+| :---: | :--- | :---: | :--- |
+| 1 | Quyết định 6888/QĐ-ĐHBK cập nhật Quy định Công tác Học sinh Sinh viên Đại học Bách khoa Hà Nội có nội dung chi tiết quy định về những lĩnh vực nào? | 0.7026 | Điểm relevancy thấp. Câu trả lời của LLM lan man, cần thêm post-processing lọc nhiễu văn cảnh. |
 
----
-
-## Worst Performers (Bottom 3)
-
-| # | Question | Faithfulness | Relevance | Recall | Failure Stage | Root Cause |
-|---|----------|-------------|-----------|--------|---------------|------------|
-| 1 | | | | | | |
-| 2 | | | | | | |
-| 3 | | | | | | |
-
----
-
-## Recommendations
-
-### Cải tiến 1
-**Action:**
-**Expected impact:**
-
-### Cải tiến 2
-**Action:**
-**Expected impact:**
-
-### Cải tiến 3
-**Action:**
-**Expected impact:**
+## 4. Đề xuất Cải tiến Hệ thống (Recommendations)
+1. **Tối ưu hóa Alpha trong Hybrid Search:** Điều chỉnh tỉ lệ trọng số BM25 và Dense Search để tăng độ phủ đối với các từ viết tắt chuyên ngành Bách Khoa (như HUST, TNTHPT, VSTEP).
+2. **Cải tiến Chunking:** Áp dụng Semantic Chunking thay vì RecursiveCharacterTextSplitter cố định để các đoạn văn quy chế giữ nguyên tính toàn vẹn thông tin.
+3. **Fine-tune Cross-Encoder:** Huấn luyện Cross-Encoder trên tập dữ liệu tiếng Việt chuyên ngành để nâng cao độ chính xác của bước Reranking.

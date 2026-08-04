@@ -29,9 +29,12 @@ import os
 import time
 from pathlib import Path
 
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load env variables từ đúng thư mục dự án
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=True)
 
 PAGEINDEX_API_KEY = os.getenv("PAGEINDEX_API_KEY", "")
 STANDARDIZED_DIR = Path(__file__).parent.parent / "data" / "standardized"

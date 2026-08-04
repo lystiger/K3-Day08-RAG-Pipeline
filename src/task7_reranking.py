@@ -16,9 +16,12 @@ quyết định fallback ở Task 9 — Role 1 phải so threshold với cosine 
 import math
 import os
 
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load env variables từ đúng thư mục dự án
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=True)
 
 JINA_API_KEY = os.getenv("JINA_API_KEY", "")
 JINA_MODEL = "jina-reranker-v2-base-multilingual"
