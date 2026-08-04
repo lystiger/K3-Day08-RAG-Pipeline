@@ -78,5 +78,30 @@
     "question": "GS.TS. NGƯT. Lê Anh Tuấn được bổ nhiệm giữ chức Giám đốc Đại học Bách khoa Hà Nội theo quyết định số mấy và ban hành ngày nào?",
     "expected_answer": "Ngày 22/5/2026, Bộ Giáo dục và Đào tạo ban hành quyết định số 1288/QĐ-BGDDT về việc bổ nhiệm GS.TS. NGƯT. Lê Anh Tuấn giữ chức vụ Giám đốc Đại học Bách khoa Hà Nội.",
     "expected_context": "teacher_article_03.md"
+  },
+  {
+    "question": "Đoàn Đại học Bách khoa Hà Nội tham gia Chương trình Giao lưu Lãnh đạo trẻ ASEAN - Trung Quốc lần thứ XII vào thời gian nào và tại đâu?",
+    "expected_answer": "Đoàn tham gia Chương trình Giao lưu Lãnh đạo trẻ ASEAN - Trung Quốc lần thứ XII vào tháng 7/2026 tại tỉnh Thanh Hải, Trung Quốc.",
+    "expected_context": "article_04.md"
+  },
+  {
+    "question": "Chủ đề bài diễn thuyết của sinh viên Bùi Huy Hoàng tại Chương trình Giao lưu Lãnh đạo trẻ ASEAN - Trung Quốc lần thứ XII là gì?",
+    "expected_answer": "Kiến tạo quê hương thông minh thông qua nguồn nhân lực mới chất lượng cao.",
+    "expected_context": "article_04.md"
+  },
+  {
+    "question": "Thành phần đoàn Đại học Bách khoa Hà Nội tham gia Chương trình Giao lưu Lãnh đạo trẻ ASEAN - Trung Quốc lần thứ XII gồm bao nhiêu người?",
+    "expected_answer": "Đoàn Đại học Bách khoa Hà Nội gồm 1 cán bộ và 5 sinh viên.",
+    "expected_context": "article_04.md"
+  },
+  {
+    "question": "Nhận xét của ông Raul L. Lambino về phần trình bày của sinh viên Huy Hoàng như thế nào?",
+    "expected_answer": "Ông khen ngợi phần thể hiện vô cùng ấn tượng, đặc biệt tâm đắc ý tưởng đất nước thông minh được khởi nguồn từ công dân thông thái và công dân thông thái sẽ xây dựng nên một tương lai thông minh.",
+    "expected_context": "article_04.md"
+  },
+  {
+    "question": "Trong quá trình trải nghiệm thực tế tại Thanh Hải, Trung Quốc, đoàn Đại học Bách khoa Hà Nội đã được tham quan nghiên cứu những mô hình nào?",
+    "expected_answer": "Đoàn được tham quan nghiên cứu mô hình phát triển năng lượng sạch, bảo tồn sinh thái và ứng dụng công nghệ tại Thanh Hải.",
+    "expected_context": "article_04.md"
   }
 ]
