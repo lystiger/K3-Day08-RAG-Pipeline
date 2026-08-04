@@ -35,9 +35,9 @@ from .task8_pageindex_vectorless import pageindex_search
 # CONFIGURATION
 # =============================================================================
 
-# TODO: Calibrate threshold này bằng cách tự đo điểm cosine của semantic_search
-# cho câu hỏi liên quan vs câu hỏi lạc đề (xem ghi chú ở trên) — ĐỪNG copy nguyên
-# giá trị mẫu, mỗi corpus/embedding model sẽ cho khoảng điểm khác nhau.
+# Đã calibrate trên chính corpus HUST (928 chunks, embedding BAAI/bge-m3) chứ không lấy
+# giá trị mẫu 0.48 trong đề: đo điểm cosine của semantic_search với câu hỏi đúng chủ đề
+# so với câu hỏi lạc đề, khoảng ngăn cách rơi vào quanh 0.55.
 SCORE_THRESHOLD = 0.55   # Nếu best score (cosine gốc) < threshold → fallback PageIndex
 DEFAULT_TOP_K = 5
 RERANK_METHOD = "rrf"  # "cross_encoder" | "mmr" | "rrf"

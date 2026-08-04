@@ -2,6 +2,11 @@
 
 Báo cáo so sánh chất lượng câu trả lời giữa hai cấu hình RAG Pipeline trên bộ tài liệu thực tế của Đại học Bách khoa Hà Nội (HUST).
 
+> ⚠️ **Phạm vi lần chạy này: 1/16 câu** trong `golden_dataset.json` (do hạn mức 429 của LLM
+> free tier). Vì vậy bảng §3 "Worst Performers" mới có 1 dòng thay vì bottom 3, và các số
+> trung bình ở §1 chưa đủ ý nghĩa thống kê. Chạy lại đầy đủ:
+> `python -m group_project.evaluation.eval_pipeline` — file này sẽ được ghi đè bằng kết quả 16 câu.
+
 ## 1. Tóm tắt Điểm số Trung bình (Overall Mean Scores)
 
 | Metric | Config A: Hybrid + Rerank | Config B: Dense Only | Chênh lệch (A - B) |

@@ -76,7 +76,7 @@ flowchart LR
         T2["Task 2<br/>Crawl tin tức HUST"] --> LZ
         LZ --> T3["Task 3<br/>MarkItDown → .md<br/>+ YAML front matter"]
         T3 --> SZ[("data/standardized/")]
-        SZ --> T4["Task 4<br/>Chunk 800/100<br/>Embed bge-m3 (1024d)"]
+        SZ --> T4["Task 4<br/>Chunk 500/50<br/>Embed bge-m3 (1024d)"]
         T4 --> CDB[("chroma_db/<br/>university_services_docs<br/>928 chunks")]
     end
 

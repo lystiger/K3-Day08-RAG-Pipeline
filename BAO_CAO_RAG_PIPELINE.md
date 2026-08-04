@@ -9,7 +9,9 @@
 > 5. Nguyễn Thị Lý (MSSV: 2A202601962) — Role 5: Evaluation & QA  
 > 6. Nguyễn Thế Công (MSSV: 2A202601425) — Role 5: Evaluation & QA  
 > **Ngày báo cáo:** 2026-08-04  
-> **Trạng thái dự án:** **HOÀN THÀNH 100% (MÃ NGUỒN SẠCH & ĐÃ CHẠY PYTEST 100% PASSED & ĐÁNH GIÁ RAGAS)**
+> **Trạng thái dự án:** Pipeline Task 1–10 hoàn thiện, chatbot chạy được, đã dựng xong bộ đánh
+> giá RAGAS. **Còn tồn:** lần chạy eval mới phủ 1/16 câu Golden Dataset (§2), và các mục bonus
+> HyDE / Query Expansion / deploy online chưa triển khai.
 
 ---
 
@@ -23,22 +25,27 @@ Dưới đây là kết quả nghiệm thu thực tế các tính năng so với
 | **Task 2** | Cào dữ liệu JSON thông báo tin tức HUST cho SV & GV | **ĐÃ XONG** | `data/landing/news/` | Thu thập đầy đủ 8 tệp tin JSON tin tức thật của HUST. |
 | **Task 3** | Trích xuất sang Markdown kèm YAML Front Matter | **ĐÃ XONG** | `data/standardized/` | Chuyển đổi thành công 13 file chuẩn, gắn metadata phân loại đối tượng chính xác (`audience: 'student'` hoặc `'teacher'`). |
 | **Task 4** | Chunking & Indexing ChromaDB bằng model `bge-m3` | **ĐÃ XONG** | `src/task4_chunking_indexing.py` | Đã re-index thành công **928 chunks** (Sinh viên + Giảng viên) sạch sẽ vào ChromaDB. |
-| **Task 5** | Semantic Search (Cosine similarity) + HyDE | **ĐÃ XONG** | `src/task5_semantic_search.py` | Tích hợp thuật toán quy đổi L2 sang Cosine similarity score chuẩn $[0,1]$ và bộ lọc `"type"`. |
+| **Task 5** | Semantic Search (Cosine similarity) | **ĐÃ XONG** | `src/task5_semantic_search.py` | Tích hợp thuật toán quy đổi L2 sang Cosine similarity score chuẩn $[0,1]$ và bộ lọc `"type"`. HyDE / Query Expansion là mục **bonus**, nhóm chưa triển khai. |
 | **Task 6** | BM25 Lexical Search (Tiếng Việt) | **ĐÃ XONG** | `src/task6_lexical_search.py` | Sẵn sàng Lexical Search có lọc trùng và phân loại audience. |
 | **Task 7** | Gộp thứ hạng RRF ($k=60$) & Reranking | **ĐÃ XONG** | `src/task7_reranking.py` | Tích hợp thành công RRF, Cross-Encoder của Jina để xếp hạng chunks. |
 | **Task 8** | PageIndex Fallback Module | **ĐÃ XONG** | `src/task8_pageindex_vectorless.py` | Sẵn sàng logic tìm kiếm fallback không cần vector index. |
 | **Task 9** | Retrieval Pipeline (Merge logic, Threshold 0.55) | **ĐÃ XONG** | `src/task9_retrieval_pipeline.py` | Hoàn thiện logic gộp kết quả hybrid, filter threshold 0.55 và fallback PageIndex. **Vượt qua unit tests**. |
 | **Task 10** | Generation có Citation & Document Reordering | **ĐÃ XONG** | `src/task10_generation.py` | Đã gộp logic Reorder (tránh lost in the middle), sinh câu trả lời kèm citation dạng [Document X \| Source: Y]. **Vượt qua unit tests**. |
 | **Chatbot** | Giao diện Chatbot hỏi đáp Streamlit | **ĐÃ XONG** | `app.py` | Chatbot hoạt động hoàn hảo, hiển thị citation trực quan. |
-| **RAG Eval** | Bộ Golden Dataset HUST & Đánh giá RAGAS | **ĐÃ XONG** | `group_project/evaluation/` | - Golden dataset gồm 16 câu hỏi HUST chất lượng cao.<br>- Đã thực thi đánh giá so sánh A/B và xuất bản báo cáo [`results.md`](file:///c:/Users/Admin/Desktop/lab/K3-Day08-RAG-Pipeline/group_project/evaluation/results.md). |
+| **RAG Eval** | Bộ Golden Dataset HUST & Đánh giá RAGAS | **MỘT PHẦN** | `group_project/evaluation/` | - Golden dataset gồm 16 câu hỏi HUST chất lượng cao.<br>- Đã chạy A/B testing 4 metric và xuất báo cáo [`results.md`](group_project/evaluation/results.md), nhưng **mới chạy trên 1/16 câu** — xem §2. |
 
 ---
 
 ## 📊 2. Kết Quả Đánh Giá A/B Testing Bằng Ragas
 
-Chúng ta đã chạy đánh giá thực tế 1 câu hỏi cốt lõi đại diện trong bộ Golden Dataset HUST để so sánh giữa hai cấu hình:
+Nhóm so sánh hai cấu hình:
 *   **Config A:** Hybrid Search (Semantic + Lexical) + Jina Reranking.
 *   **Config B:** Dense Search Only (Semantic Only).
+
+> ⚠️ **Giới hạn của số liệu dưới đây:** lần chạy này mới đo **1/16 câu** trong Golden Dataset
+> (do hạn mức 429 của LLM free tier), nên các con số chỉ là *chỉ báo sơ bộ*, chưa đủ ý nghĩa
+> thống kê và mục "Worst Performers" trong `results.md` mới có 1 dòng thay vì bottom 3.
+> Lệnh chạy lại đầy đủ 16 câu nằm ở §3.2.
 
 ### Điểm số đo đạc thực tế:
 
@@ -59,15 +66,27 @@ Chúng ta đã chạy đánh giá thực tế 1 câu hỏi cốt lõi đại di�
 
 ## 🚀 3. Hướng Dẫn Khởi Chạy Hệ Thống
 
-### 1. Khởi chạy Chatbot UI (Streamlit App)
+### 3.1. Khởi chạy Chatbot UI (Streamlit App)
 Để kiểm tra giao diện hỏi đáp thông minh:
 ```bash
 streamlit run app.py
 ```
 
-### 2. Khởi chạy Đánh Giá RAGAS
-Để chạy lại bộ đánh giá A/B Testing tự động:
+Bản giao diện thứ hai (FastAPI + SSE streaming, thư mục `web/`):
 ```bash
-python group_project/evaluation/eval_pipeline.py
+uvicorn api:app --reload
 ```
-*(Lưu ý: Hệ thống đã được Antigravity monkeypatch OpenAI completions tự động ngủ 2s và retry exponential backoff khi gặp 429, đảm bảo tiến trình luôn chạy thành công 100% mà không bị lỗi RPM).*
+
+### 3.2. Khởi chạy Đánh Giá RAGAS
+Chạy A/B Testing trên **toàn bộ 16 câu** của Golden Dataset:
+```bash
+python -m group_project.evaluation.eval_pipeline
+```
+
+Nếu LLM free tier trả 429 liên tục, hạ tạm số câu bằng biến môi trường (không sửa code):
+```bash
+EVAL_LIMIT=5 python -m group_project.evaluation.eval_pipeline
+```
+
+*(Lưu ý: `eval_pipeline.py` đã patch `Completions.create` để giãn 5s giữa các request và tự retry
+tối đa 4 lần, mỗi lần ngủ 65s khi gặp 429 — đủ để reset rolling window của free tier.)*
