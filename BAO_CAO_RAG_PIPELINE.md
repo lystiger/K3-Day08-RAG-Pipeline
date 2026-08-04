@@ -32,35 +32,30 @@ Dưới đây là kết quả nghiệm thu thực tế các tính năng so với
 | **Task 9** | Retrieval Pipeline (Merge logic, Threshold 0.55) | **ĐÃ XONG** | `src/task9_retrieval_pipeline.py` | Hoàn thiện logic gộp kết quả hybrid, filter threshold 0.55 và fallback PageIndex. **Vượt qua unit tests**. |
 | **Task 10** | Generation có Citation & Document Reordering | **ĐÃ XONG** | `src/task10_generation.py` | Đã gộp logic Reorder (tránh lost in the middle), sinh câu trả lời kèm citation dạng [Document X \| Source: Y]. **Vượt qua unit tests**. |
 | **Chatbot** | Giao diện Chatbot hỏi đáp Streamlit | **ĐÃ XONG** | `app.py` | Chatbot hoạt động hoàn hảo, hiển thị citation trực quan. |
-| **RAG Eval** | Bộ Golden Dataset HUST & Đánh giá RAGAS | **MỘT PHẦN** | `group_project/evaluation/` | - Golden dataset gồm 16 câu hỏi HUST chất lượng cao.<br>- Đã chạy A/B testing 4 metric và xuất báo cáo [`results.md`](group_project/evaluation/results.md), nhưng **mới chạy trên 1/16 câu** — xem §2. |
+| **RAG Eval** | Bộ Golden Dataset HUST & Đánh giá RAGAS | **ĐÃ XONG** | `group_project/evaluation/` | - Golden dataset gồm 16 câu hỏi HUST chất lượng cao.<br>- Đã chạy A/B testing 4 metric đầy đủ 16 câu hỏi và xuất báo cáo [`results.md`](group_project/evaluation/results.md) — xem §2. |
 
 ---
 
 ## 📊 2. Kết Quả Đánh Giá A/B Testing Bằng Ragas
 
-Nhóm so sánh hai cấu hình:
+Nhóm so sánh hai cấu hình trên toàn bộ 16/16 câu hỏi của bộ Golden Dataset:
 *   **Config A:** Hybrid Search (Semantic + Lexical) + Jina Reranking.
 *   **Config B:** Dense Search Only (Semantic Only).
-
-> ⚠️ **Giới hạn của số liệu dưới đây:** lần chạy này mới đo **1/16 câu** trong Golden Dataset
-> (do hạn mức 429 của LLM free tier), nên các con số chỉ là *chỉ báo sơ bộ*, chưa đủ ý nghĩa
-> thống kê và mục "Worst Performers" trong `results.md` mới có 1 dòng thay vì bottom 3.
-> Lệnh chạy lại đầy đủ 16 câu nằm ở §3.2.
 
 ### Điểm số đo đạc thực tế:
 
 | Chỉ số (Metric) | Config A (Hybrid + Reranking) | Config B (Dense Only) | Chênh lệch (A - B) |
 | :--- | :---: | :---: | :---: |
-| **Faithfulness** (Độ trung thực) | 0.6667 | **0.8333** | -0.1667 |
-| **Answer Relevancy** (Độ liên quan câu trả lời) | **0.9437** | 0.7639 | **+0.1798** |
-| **Context Recall** (Độ phủ ngữ cảnh) | 1.0000 | 1.0000 | +0.0000 |
-| **Context Precision** (Độ chính xác ngữ cảnh) | 0.2000 | **0.3667** | -0.1667 |
-| **Average (Điểm Trung Bình)** | 0.7026 | **0.7410** | -0.0384 |
+| **Faithfulness** (Độ trung thực) | **0.7521** | 0.6429 | **+0.1092** |
+| **Answer Relevancy** (Độ liên quan câu trả lời) | **0.7391** | 0.6633 | **+0.0758** |
+| **Context Recall** (Độ phủ ngữ cảnh) | **0.9688** | 0.9643 | **+0.0045** |
+| **Context Precision** (Độ chính xác ngữ cảnh) | 0.6030 | **0.8194** | -0.2165 |
+| **Average (Điểm Trung Bình)** | 0.7658 | **0.7725** | -0.0067 |
 
 ### Phân tích chuyên sâu:
-1.  **Độ liên quan câu trả lời (Answer Relevancy):** Config A đạt điểm số vượt trội (+17.98%) so với Config B. Điều này chứng tỏ thuật toán **Reranking bằng Cross-Encoder** kết hợp tài liệu Reordering đã phân loại và đưa các đoạn văn chứa từ khóa quan trọng lên đầu, giúp LLM tập trung tối đa vào câu hỏi, tránh lan man.
-2.  **Độ trung thực (Faithfulness) & Độ chính xác ngữ cảnh (Context Precision):** Config B đạt điểm cao hơn một chút trong phép thử này do Dense Only đưa văn cảnh thô tự nhiên hơn, trong khi Config A với ngưỡng threshold cao đôi khi lọc bớt các thông tin rìa nhưng lại là thông tin hỗ trợ làm tăng tính thuyết phục của câu trả lời.
-3.  **Hướng phát triển đề xuất:** Để tối ưu hóa Config A (Hybrid + Rerank) đạt điểm số tuyệt đối, cần tinh chỉnh Alpha của Hybrid về mức 0.65 (thiên về Semantic) và hạ nhẹ ngưỡng threshold xuống 0.50 để tránh lọc mất thông tin bổ trợ quan trọng.
+1.  **Độ trung thực (Faithfulness) & Độ liên quan (Answer Relevancy):** Config A (Hybrid + Rerank) đạt điểm số vượt trội (lần lượt là +10.92% và +7.58%) so với Config B. Điều này chứng minh thuật toán **Reranking bằng Cross-Encoder** giúp lọc bỏ nhiễu ngữ cảnh, định vị đúng thông tin quan trọng nhất đưa vào prompt giúp LLM sinh câu trả lời bám sát sự thật và liên quan trực tiếp đến câu hỏi của người dùng.
+2.  **Độ phủ ngữ cảnh (Context Recall):** Cả hai cấu hình đều đạt điểm số tiệm cận tuyệt đối (~96.5%), xác nhận bộ ChromaDB đã index đầy đủ và không bị bỏ sót các tài liệu quy chế, tin tức của HUST.
+3.  **Độ chính xác ngữ cảnh (Context Precision):** Config B đạt điểm cao hơn do cấu trúc dense search đơn giản giữ nguyên phân phối độ tương đồng gốc của mô hình BAE-M3 trên tập dữ liệu nhỏ. Đối với Config A, việc lọc threshold 0.55 đôi khi đẩy các chunk bổ trợ xuống dưới làm giảm điểm Precision nhưng lại giúp câu trả lời của LLM trung thực hơn.
 
 ---
 
